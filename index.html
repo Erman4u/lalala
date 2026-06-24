@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Undangan Pernikahan Digital Eksklusif Bagus & Sekar. Dengan tema Emerald Botanical & Champagne Gold. Turut mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu.">
+  <meta name="author" content="EnP Digital Service">
+
+  <!-- Open Graph / Meta Tags for Social Media Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://template17.ermancah987.workers.dev/">
+  <meta property="og:title" content="Undangan Pernikahan - Bagus & Sekar">
+  <meta property="og:description"
+    content="Undangan Pernikahan Digital Eksklusif Bagus & Sekar. Dengan tema Emerald Botanical & Champagne Gold. Turut mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu.">
+  <meta property="og:image" content="https://github.com/Erman4u/Publish-Image/blob/main/template17.webp?raw=true">
+
+  <!-- Twitter Meta Tags -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://template17.ermancah987.workers.dev/">
+  <meta property="twitter:title" content="Undangan Pernikahan - Bagus & Sekar">
+  <meta property="twitter:description"
+    content="Undangan Pernikahan Digital Eksklusif Bagus & Sekar. Dengan tema Emerald Botanical & Champagne Gold. Turut mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu.">
+  <meta property="twitter:image" content="https://github.com/Erman4u/Publish-Image/blob/main/template17.webp?raw=true">
+
+  <title>Undangan Pernikahan - Bagus & Sekar</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Floating Falling Petals Container -->
+  <div class="petals-container" id="petals-container"></div>
+
+  <!-- Layer Pembuka (Cover Overlay) -->
+  <div class="cover-overlay" id="cover-overlay">
+    <div class="overlay-bg" style="background-image: url('assets/Image/overlay.webp');"></div>
+    <div class="overlay-overlay"></div>
+    <div class="overlay-frame"></div> <!-- Luxury Elegant Gold Frame -->
+    <div class="overlay-content">
+      <div class="overlay-top-wrap">
+        <h3 class="overlay-sub animate-fade-in-down delay-1">Wedding Invitation</h3>
+        <h1 class="overlay-title animate-zoom-in delay-2">Bagus & Sekar</h1>
+        <p class="overlay-role animate-fade-in-up delay-3">Mempelai</p>
+      </div>
+
+      <div class="overlay-bottom-wrap">
+        <div class="tamu-container animate-fade-in-up delay-4">
+          <p class="tamu-label">Yth. Bapak / Ibu / Saudara/i</p>
+          <h2 class="tamu-name" id="tamu-name">Tamu Terhormat</h2>
+          <p class="tamu-desc">Kami mengundang Anda untuk merayakan hari istimewa kami</p>
+        </div>
+
+        <button class="btn-buka animate-pulse delay-5" id="btn-buka">
+          <i class="bi bi-envelope-open-fill"></i> Buka Undangan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Audio Player -->
+  <div class="floating-music-btn" id="music-btn">
+    <div class="disc-wrapper">
+      <i class="bi bi-music-note-beamed text-gold"></i>
+    </div>
+    <audio id="bg-music" loop>
+      <source src="assets/audio/background-music.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <!-- Main Content Wrap (Hidden initially or opacity 0 until opened) -->
+  <main class="main-content" id="main-content">
+
+    <!-- Hero / Welcome Section -->
+    <section class="hero-section" id="home">
+      <div class="hero-bg" style="background-image: url('assets/Image/hero.webp');"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-container">
+        <div class="hero-top-wrap">
+          <span class="hero-subtitle">The Wedding Of</span>
+          <h1 class="hero-title">Bagus & Sekar</h1>
+
+        </div>
+
+        <div class="hero-bottom-wrap">
+          <div class="hero-divider">
+            <span></span>
+            <i class="bi bi-heart-fill"></i>
+            <span></span>
+          </div>
+          <p class="hero-date"><i class="bi bi-calendar3"></i> 15 • 03 • 2027</p>
+          <p class="hero-location"><i class="bi bi-geo-alt-fill"></i> Padang Jaya, Kalimantan Timur</p>
+
+          <div class="scroll-down-indicator">
+            <span>Scroll ke bawah</span>
+            <i class="bi bi-chevron-double-down"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mempelai Section -->
+    <section class="mempelai-section" id="mempelai">
+      <div class="container">
+
+        <div class="section-header text-center">
+          <div class="cross-ornament">✝</div>
+          <h2 class="section-title text-primary">Shalom & Salam Sejahtera</h2>
+          <p class="section-desc">
+            Dengan penuh sukacita dan ucapan syukur kepada Tuhan. Kami mengundang Bapak/Ibu/Saudara/i serta Kerabat sekalian untuk menghadiri acara pernikahan kami:
+          </p>
+        </div>
+
+        <div class="couple-grid">
+          <!-- Mempelai Pria -->
+          <div class="couple-card groom">
+            <div class="couple-photo-frame">
+              <img src="assets/Image/pria.jpg" alt="Blacky" class="couple-photo">
+            </div>
+            <div class="couple-info">
+              <span class="mempelai-badge">Mempelai Pria</span>
+              <h3 class="couple-name">Bagus Prawira</h3>
+              <p class="couple-parent-label">Putra dari</p>
+              <h4 class="parent-name"><i class="bi bi-gender-male text-gold"></i> Bapak Suwarno</h4>
+              <h4 class="parent-name"><i class="bi bi-gender-female text-gold"></i> Ibu Sri Wahyuni</h4>
+
+              <div class="couple-social">
+                <a href="#" class="social-link"><i class="bi bi-instagram"></i> @bagus.prawira</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider Decorative -->
+          <div class="couple-middle-divider">
+            <div class="and-text">&</div>
+          </div>
+
+          <!-- Mempelai Wanita -->
+          <div class="couple-card bride">
+            <div class="couple-photo-frame">
+              <img src="assets/Image/wanita.jpg" alt="Cimeng" class="couple-photo">
+            </div>
+            <div class="couple-info">
+              <span class="mempelai-badge">Mempelai Wanita</span>
+              <h3 class="couple-name">Sekar Ayu Kirana</h3>
+              <p class="couple-parent-label">Putri dari</p>
+              <h4 class="parent-name"><i class="bi bi-gender-male text-gold"></i> Bapak Bambang Widjojo</h4>
+              <h4 class="parent-name"><i class="bi bi-gender-female text-gold"></i> Ibu Retno Kusuma</h4>
+
+              <div class="couple-social">
+                <a href="#" class="social-link"><i class="bi bi-instagram"></i> @sekar.kirana</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section" id="countdown">
+      <div class="countdown-overlay"></div>
+      <div class="container relative">
+        <h2 class="section-title text-center text-white">Counting Down To</h2>
+        <p class="countdown-date text-center text-gold">Maret 15, 2027</p>
+
+        <div class="countdown-timer" id="timer">
+          <div class="timer-box">
+            <span class="timer-number" id="days">298</span>
+            <span class="timer-label">Hari</span>
+          </div>
+          <div class="timer-box">
+            <span class="timer-number" id="hours">08</span>
+            <span class="timer-label">Jam</span>
+          </div>
+          <div class="timer-box">
+            <span class="timer-number" id="minutes">37</span>
+            <span class="timer-label">Menit</span>
+          </div>
+          <div class="timer-box">
+            <span class="timer-number" id="seconds">20</span>
+            <span class="timer-label">Detik</span>
+          </div>
+        </div>
+
+        <div class="calendar-btn-container text-center">
+          <button class="btn-primary" id="btn-calendar">
+            <i class="bi bi-calendar-plus"></i> Simpan ke Kalender
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events-section" id="events">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">The Events</span>
+          <h2 class="section-title text-primary">Acara Spesial</h2>
+          <p class="section-desc">Dengan memohon berkat dan anugerah Tuhan, kami mengundang kehadiran Bapak/Ibu/Kerabat pada:</p>
+        </div>
+
+        <div class="events-grid">
+          <!-- Pemberkatan Nikah -->
+          <div class="event-card akad">
+            <div class="event-icon">
+              <i class="bi bi-brightness-high-fill"></i>
+            </div>
+            <h3 class="event-title">Pemberkatan Nikah</h3>
+            <div class="event-divider"></div>
+
+            <div class="event-detail-item">
+              <i class="bi bi-calendar-event-fill text-gold"></i>
+              <div class="detail-text">
+                <strong>Tanggal</strong>
+                <p>Rabu, 15 Maret 2027</p>
+              </div>
+            </div>
+
+            <div class="event-detail-item">
+              <i class="bi bi-clock-fill text-gold"></i>
+              <div class="detail-text">
+                <strong>Waktu</strong>
+                <p>08:00 – 10:00 WITA</p>
+              </div>
+            </div>
+
+            <div class="event-detail-item">
+              <i class="bi bi-geo-alt-fill text-gold"></i>
+              <div class="detail-text">
+                <strong>Lokasi</strong>
+                <p>RT 02, Desa Padang Jaya,<br>Kec. Kuaro, Kab. Paser, Kaltim</p>
+              </div>
+            </div>
+
+            <button class="btn-location"
+              onclick="window.open('https://maps.google.com/?q=RT+02,+Desa+Padang+Jaya,+Kec.+Kuaro,+Kab.+Paser,+Kaltim', '_blank')">
+              <i class="bi bi-geo-fill"></i> Lihat Lokasi
+            </button>
+          </div>
+
+          <!-- Resepsi Pernikahan -->
+          <div class="event-card resepsi">
+            <div class="event-icon">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <h3 class="event-title">Resepsi Pernikahan</h3>
+            <div class="event-divider"></div>
+
+            <div class="event-detail-item">
+              <i class="bi bi-calendar-event-fill text-gold"></i>
+              <div class="detail-text">
+                <strong>Tanggal</strong>
+                <p>Rabu, 15 Maret 2027</p>
+              </div>
+            </div>
+
+            <div class="event-detail-item">
+              <i class="bi bi-clock-fill text-gold"></i>
+              <div class="detail-text">
+                <strong>Waktu</strong>
+                <p>13:00 – Selesai</p>
+              </div>
+            </div>
+
+            <div class="event-detail-item">
+              <i class="bi bi-geo-alt-fill text-gold"></i>
+              <div class="detail-text">
+                <strong>Lokasi</strong>
+                <p>RT 02, Desa Padang Jaya,<br>Kec. Kuaro, Kab. Paser, Kaltim</p>
+              </div>
+            </div>
+
+            <button class="btn-location"
+              onclick="window.open('https://maps.google.com/?q=RT+02,+Desa+Padang+Jaya,+Kec.+Kuaro,+Kab.+Paser,+Kaltim', '_blank')">
+              <i class="bi bi-geo-fill"></i> Lihat Lokasi
+            </button>
+          </div>
+
+          <!-- Live Streaming -->
+          <div class="event-card streaming" style="grid-column: 1 / -1; background: var(--color-accent-light); border: 2px solid var(--color-accent);">
+            <div class="event-icon" style="background: var(--color-accent); color: var(--color-primary);">
+              <i class="bi bi-camera-video-fill"></i>
+            </div>
+            <h3 class="event-title">Live Streaming</h3>
+            <div class="event-divider"></div>
+            
+            <p style="margin-bottom: 20px; color: var(--color-text-muted);">Bagi keluarga dan sahabat yang tidak dapat hadir secara langsung, kami mengundang Anda untuk bergabung menyaksikan momen bahagia kami secara virtual.</p>
+
+            <button class="btn-primary" style="background: #FF0000; border-color: #FF0000; color: white;"
+              onclick="window.open('https://youtube.com', '_blank')">
+              <i class="bi bi-youtube"></i> Tonton Streaming
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section scroll-reveal" id="location-map">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Location Map</span>
+          <h2 class="section-title text-primary">Denah Lokasi</h2>
+          <p class="section-desc">Klik peta di bawah ini untuk melihat rute menuju lokasi acara melalui Google Maps.</p>
+        </div>
+
+        <div class="map-container-wrapper">
+          <div class="map-frame"
+            style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); border: 2px solid var(--color-gold);">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15951.34110190547!2d116.14305!3d-1.787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df9787e71959779%3A0x6331908b646c0a52!2sPadang%20Jaya%2C%20Kec.%20Kuaro%2C%20Kabupaten%20Paser%2C%20Kalimantan%20Timur!5e0!3m2!1sid!2sid!4v1715843445555!5m2!1sid!2sid"
+              width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dresscode Section -->
+    <section class="dresscode-section scroll-reveal" id="dresscode">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Attire Guide</span>
+          <h2 class="section-title text-primary">Dresscode</h2>
+          <p class="section-desc">Kehadiran Anda adalah hadiah bagi kami. Untuk menambah keharmonisan acara, kami
+            menyarankan tamu untuk mengenakan pakaian dengan nuansa:</p>
+        </div>
+
+        <div class="dresscode-card">
+          <div class="dresscode-icon">
+            <i class="bi bi-person-raised-hand"></i>
+          </div>
+          <h3 class="dresscode-type">Batik / Formal</h3>
+          <div class="color-palette">
+            <div class="color-item" style="background-color: #7A5C00;" title="Deep Amber"></div>
+            <div class="color-item" style="background-color: #F5C842;" title="Pastel Yellow"></div>
+            <div class="color-item" style="background-color: #FFE680;" title="Light Lemon"></div>
+            <div class="color-item" style="background-color: #FFFDE7;" title="Cream White"></div>
+          </div>
+          <p class="dresscode-note">Nuansa Warna: Kuning Pastel, Amber, atau Krem</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Love Journey Section -->
+    <section class="journey-section" id="journey">
+      <div class="container">
+        <div class="section-header text-center scroll-reveal">
+          <span class="section-tag">Our Journey</span>
+          <h2 class="section-title text-primary">Kisah Kasih</h2>
+          <p class="section-desc">Kisah bagaimana takdir mempertemukan kedua ekor kucing pilihan ini dalam satu ikatan
+            suci.</p>
+        </div>
+
+        <div class="love-story-slider scroll-reveal">
+          <!-- Stepper Navigation -->
+          <div class="love-story-stepper">
+            <button class="stepper-step active" data-step="0">
+              <span class="stepper-icon"><i class="bi bi-paw-fill"></i></span>
+              <span class="stepper-label">Jan 2026</span>
+            </button>
+            <div class="stepper-line">
+              <div class="stepper-line-fill" id="stepper-line-1"></div>
+            </div>
+            <button class="stepper-step" data-step="1">
+              <span class="stepper-icon"><i class="bi bi-paw-fill"></i></span>
+              <span class="stepper-label">Feb 2026</span>
+            </button>
+            <div class="stepper-line">
+              <div class="stepper-line-fill" id="stepper-line-2"></div>
+            </div>
+            <button class="stepper-step" data-step="2">
+              <span class="stepper-icon"><i class="bi bi-paw-fill"></i></span>
+              <span class="stepper-label">Mar 2026</span>
+            </button>
+          </div>
+
+          <!-- Card Track -->
+          <div class="love-story-viewport">
+            <div class="love-story-track" id="love-story-track">
+              <!-- Chapter 1 -->
+              <div class="love-story-card active">
+                <div class="card-inner">
+                  <div class="card-ornament"><i class="bi bi-heart-fill"></i></div>
+                  <span class="card-chapter">Chapter 1</span>
+                  <h3 class="card-title">Pertemuan Teduh</h3>
+                  <div class="card-divider"></div>
+                  <p class="card-quote">
+                    &ldquo;Semua bermula di bawah rintik hujan sore hari di pelataran Pendopo. Pandangan Bagus tak
+                    sengaja tertuju pada Sekar yang sedang berteduh sembari membawa buku sastra lama. Sebuah pertemuan
+                    sederhana yang membuka pintu takdir.&rdquo;
+                  </p>
+                  <span class="card-date"><i class="bi bi-calendar3"></i> Januari 2026</span>
+                </div>
+              </div>
+              <!-- Chapter 2 -->
+              <div class="love-story-card">
+                <div class="card-inner">
+                  <div class="card-ornament"><i class="bi bi-lightning-fill"></i></div>
+                  <span class="card-chapter">Chapter 2</span>
+                  <h3 class="card-title">Rangkaian Kata</h3>
+                  <div class="card-divider"></div>
+                  <p class="card-quote">
+                    &ldquo;Melalui perbincangan iman dan kesamaan visi hidup, rasa kagum Bagus berubah
+                    menjadi kasih yang tulus. Waktu yang berjalan menumbuhkan keyakinan bahwa mereka dipertemukan untuk saling melengkapi dalam rencana-Nya.&rdquo;
+                  </p>
+                  <span class="card-date"><i class="bi bi-calendar3"></i> Februari 2026</span>
+                </div>
+              </div>
+              <!-- Chapter 3 -->
+              <div class="love-story-card">
+                <div class="card-inner">
+                  <div class="card-ornament"><i class="bi bi-infinity"></i></div>
+                  <span class="card-chapter">Chapter 3</span>
+                  <h3 class="card-title">Ketulusan Hati</h3>
+                  <div class="card-divider"></div>
+                  <p class="card-quote">
+                    &ldquo;Dengan restu kedua orang tua dan niat tulus di hadapan Tuhan, Bagus memantapkan hati meminang
+                    Sekar. Menyatukan dua keluarga dalam satu janji suci yang diberkati kekal dalam kasih Bapa.&rdquo;
+                  </p>
+                  <span class="card-date"><i class="bi bi-calendar3"></i> Maret 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Controls -->
+          <div class="love-story-controls">
+            <button class="ls-nav-btn ls-prev" id="ls-prev" disabled><i class="bi bi-chevron-left"></i> Kembali</button>
+            <button class="ls-nav-btn ls-next" id="ls-next">Selanjutnya <i class="bi bi-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section class="gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-header text-center scroll-reveal">
+          <span class="section-tag">Our Moments</span>
+          <h2 class="section-title text-primary">Galeri Kebahagiaan</h2>
+          <p class="section-desc">Momen-momen indah kebersamaan kami yang penuh dengan keceriaan dan kehangatan.</p>
+        </div>
+
+        <!-- Auto Carousel Slider -->
+        <div class="slider-wrapper scroll-reveal">
+          <div class="carousel-container" id="carousel">
+            <div class="carousel-slide active" style="background-image: url('assets/Image/gallery1.jpg');"></div>
+            <div class="carousel-slide" style="background-image: url('assets/Image/gallery4.jpg');"></div>
+            <div class="carousel-slide" style="background-image: url('assets/Image/gallery6.jpg');"></div>
+          </div>
+
+          <!-- Navigation Arrows -->
+          <button class="carousel-prev" id="carousel-prev-btn"><i class="bi bi-chevron-left"></i></button>
+          <button class="carousel-next" id="carousel-next-btn"><i class="bi bi-chevron-right"></i></button>
+
+          <!-- Carousel Indicators (Dots) -->
+          <div class="carousel-dots" id="carousel-dots-container">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+          </div>
+        </div>
+
+        <!-- Polaroid Masonry Grid -->
+        <div class="polaroid-grid">
+          <!-- Gallery Item 1 -->
+          <div class="polaroid-card scroll-reveal tilt-left" data-img="assets/Image/gallery6.webp"
+            data-caption="Awal Mula Cerita 🌿">
+            <div class="polaroid-photo-frame">
+              <img src="assets/Image/gallery6.webp" alt="Bagus & Sekar Bersama" class="polaroid-photo">
+            </div>
+            <p class="polaroid-caption">Awal Mula Cerita 🌿</p>
+          </div>
+
+          <!-- Gallery Item 2 -->
+          <div class="polaroid-card scroll-reveal tilt-right" data-img="assets/Image/gallery4.webp"
+            data-caption="Senyum Kebahagiaan 💕">
+            <div class="polaroid-photo-frame">
+              <img src="assets/Image/gallery4.webp" alt="Kemesraan Mempelai" class="polaroid-photo">
+            </div>
+            <p class="polaroid-caption">Senyum Kebahagiaan 💕</p>
+          </div>
+
+          <!-- Gallery Item 3 -->
+          <div class="polaroid-card scroll-reveal tilt-left-light" data-img="assets/Image/gallery3.webp"
+            data-caption="Menuju Janji Suci 💍">
+            <div class="polaroid-photo-frame">
+              <img src="assets/Image/gallery3.webp" alt="Bagus & Sekar Taaruf" class="polaroid-photo">
+            </div>
+            <p class="polaroid-caption">Menuju Janji Suci 💍</p>
+          </div>
+
+          <!-- Gallery Item 4 -->
+          <div class="polaroid-card scroll-reveal tilt-right-light" data-img="assets/Image/hero.webp"
+            data-caption="Kebersamaan yang Hangat ✨">
+            <div class="polaroid-photo-frame">
+              <img src="assets/Image/hero.webp" alt="Mempelai Anggun" class="polaroid-photo">
+            </div>
+            <p class="polaroid-caption">Kebersamaan Penuh Barakah ✨</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="quote-section">
+      <div class="quote-overlay"></div>
+      <div class="container relative text-center">
+        <i class="bi bi-quote quote-icon text-primary"></i>
+        <blockquote class="quote-text">
+          "Demikianlah mereka bukan lagi dua, melainkan satu. Karena itu, apa yang telah dipersatukan Allah, tidak boleh diceraikan manusia."
+        </blockquote>
+        <p class="quote-author">Matius 19 : 6</p>
+      </div>
+    </section>
+
+    <!-- Wedding Gift / Kado Digital Section -->
+    <section class="gift-section" id="gift">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Wedding Gift</span>
+          <h2 class="section-title text-primary">Kado Digital</h2>
+          <p class="section-desc">
+            Doa restu Anda merupakan karunia terindah bagi kami. Namun jika ingin memberikan tanda kasih, Anda dapat
+            memberikannya melalui:
+          </p>
+        </div>
+
+        <div class="gift-options">
+          <!-- BRI Card -->
+          <div class="gift-card">
+            <div class="gift-card-header">
+              <i class="bi bi-credit-card-2-front-fill text-gold card-icon"></i>
+              <h3>Bank BRI</h3>
+            </div>
+            <div class="gift-info-body">
+              <p class="gift-label">Nomor Rekening</p>
+              <p class="gift-value" id="rekening-number">340201029837538</p>
+              <p class="gift-owner">a.n. Bagus & Sekar</p>
+              <button class="btn-gift" id="btn-copy">
+                <i class="bi bi-copy"></i> Salin Rekening
+              </button>
+            </div>
+            <button class="btn-reveal-gift">
+              <i class="bi bi-eye-fill"></i> Lihat Rekening
+            </button>
+          </div>
+
+          <!-- QRIS Card -->
+          <div class="gift-card">
+            <div class="gift-card-header">
+              <i class="bi bi-qr-code-scan text-gold card-icon"></i>
+              <h3>QRIS Sekar</h3>
+            </div>
+            <div class="gift-info-body">
+              <p class="gift-label">Pembayaran Digital</p>
+              <p class="gift-value">QRIS Resmi</p>
+              <p class="gift-owner">Scan QR untuk Tanda Kasih</p>
+              <button class="btn-gift" id="btn-qris">
+                <i class="bi bi-qr-code"></i> Tampilkan QRIS
+              </button>
+            </div>
+            <button class="btn-reveal-gift">
+              <i class="bi bi-eye-fill"></i> Lihat QRIS
+            </button>
+          </div>
+
+          <!-- Physical Gift Card -->
+          <div class="gift-card">
+            <div class="gift-card-header">
+              <i class="bi bi-box-seam-fill text-gold card-icon"></i>
+              <h3>Kirim Kado Fisik</h3>
+            </div>
+            <div class="gift-info-body">
+              <p class="gift-label">Alamat Pengiriman</p>
+              <p class="gift-value">Kediaman Keluarga Bapak Suwarno</p>
+              <p class="gift-owner">a.n. Bagus & Sekar</p>
+              <button class="btn-gift" id="btn-alamat">
+                <i class="bi bi-geo-alt"></i> Alamat Pengiriman
+              </button>
+            </div>
+            <button class="btn-reveal-gift">
+              <i class="bi bi-eye-fill"></i> Lihat Alamat
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP & Wishes Section -->
+    <section class="rsvp-section" id="rsvp">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">RSVP Confirmation</span>
+          <h2 class="section-title text-primary">RSVP & Wishes</h2>
+          <p class="section-desc">Konfirmasi kehadiran Anda dan kirimkan doa restu terbaik untuk kami.</p>
+        </div>
+
+        <div class="rsvp-grid">
+          <!-- RSVP Form -->
+          <div class="rsvp-form-card">
+            <form id="rsvp-form">
+              <div class="form-group">
+                <label for="nama"><i class="bi bi-person-fill form-icon"></i> Nama Lengkap</label>
+                <input type="text" id="nama" placeholder="Masukkan Nama Anda" required>
+              </div>
+
+              <div class="form-group">
+                <label for="jumlah-tamu"><i class="bi bi-people-fill form-icon"></i> Jumlah Tamu</label>
+                <select id="jumlah-tamu" required>
+                  <option value="1 Orang" selected>1 Orang</option>
+                  <option value="2 Orang">2 Orang</option>
+                  <option value="3 Orang">3 Orang</option>
+                  <option value="4 Orang">4 Orang</option>
+                  <option value="5 Orang">5 Orang</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="kehadiran"><i class="bi bi-question-circle-fill form-icon"></i> Kehadiran</label>
+                <select id="kehadiran" required>
+                  <option value="" disabled selected>Pilih Status Hadir</option>
+                  <option value="Hadir">Hadir</option>
+                  <option value="Tidak Hadir">Tidak Hadir</option>
+                  <option value="Masih Ragu">Masih Ragu</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="ucapan"><i class="bi bi-chat-left-heart-fill form-icon"></i> Doa & Ucapan</label>
+                <textarea id="ucapan" rows="4" placeholder="Tuliskan ucapan dan doa terbaik Anda..."
+                  required></textarea>
+              </div>
+
+              <button type="submit" class="btn-submit" id="btn-submit-rsvp">
+                <span class="btn-text"><i class="bi bi-send-fill"></i> Kirim Konfirmasi</span>
+                <span class="btn-loading-spinner" style="display: none;"><i class="bi bi-arrow-repeat spin"></i>
+                  Mengirim...</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Wish Wall -->
+          <div class="wish-wall-card">
+            <h3><i class="bi bi-chat-square-quote-fill text-gold"></i> Live Wishes Wall</h3>
+            <div class="wishes-container" id="wishes-container">
+              <!-- Dynamically populated wishes will go here -->
+              <div class="no-wishes" id="no-wishes">Belum ada ucapan. Jadilah yang pertama memberikan doa restu!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing Section -->
+    <section class="closing-section">
+      <div class="closing-bg" style="background-image: url('assets/Image/hero-cat.webp');"></div>
+      <div class="closing-overlay"></div>
+      <div class="container relative text-center">
+        <h2 class="closing-title">Terima Kasih</h2>
+        <p class="christian-verse">Soli Deo Gloria</p>
+        <p class="closing-desc">
+          Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan
+          doa restu kepada kami.
+        </p>
+        <h3 class="closing-salam">Tuhan Yesus Memberkati 🙏</h3>
+
+        <div class="happy-family">
+          <p class="family-label">Kami yang berbahagia</p>
+          <h2 class="family-names">Bagus & Sekar</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer & Credit -->
+    <footer class="main-footer">
+      <div class="container text-center">
+        <div class="credit-logo">
+          <img src="assets/Image/Logo-EnP-round.webp" alt="EnP Logo" class="footer-logo">
+        </div>
+        <p class="credit-text">Created with love by</p>
+        <h3 class="credit-author">EnP Digital Service</h3>
+
+        <div class="footer-links">
+          <a href="https://enpdigitalservice.my.id" target="_blank" class="footer-link"><i class="bi bi-globe"></i>
+            enpdigitalservice.my.id</a>
+          <a href="https://wa.me/6282229243737" target="_blank" class="footer-link"><i class="bi bi-whatsapp"></i>
+            082229243737</a>
+          <a href="https://instagram.com/enpdigitalservice" target="_blank" class="footer-link"><i
+              class="bi bi-instagram"></i> @enpdigitalservice</a>
+        </div>
+
+        <p class="copyright">Copyright © 2026 EnP Digital Service. All rights reserved.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Floating Bottom Navigation -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <a href="#home" class="nav-item active"><i class="bi bi-house-door-fill"></i><span>Home</span></a>
+    <a href="#mempelai" class="nav-item"><i class="bi bi-person-heart"></i><span>Mempelai</span></a>
+    <a href="#events" class="nav-item"><i class="bi bi-calendar-event-fill"></i><span>Acara</span></a>
+    <a href="#gallery" class="nav-item"><i class="bi bi-images"></i><span>Galeri</span></a>
+    <a href="#rsvp" class="nav-item"><i class="bi bi-chat-heart-fill"></i><span>RSVP</span></a>
+  </nav>
+
+  <!-- MODALS -->
+
+  <!-- QRIS Modal -->
+  <div class="modal" id="qris-modal">
+    <div class="modal-overlay" id="qris-modal-close-bg"></div>
+    <div class="modal-content animate-zoom-in">
+      <button class="modal-close" id="qris-modal-close-btn">&times;</button>
+      <div class="modal-header-qris">
+        <h3>QRIS Kado Pernikahan</h3>
+        <p>Scan QRIS di bawah ini untuk mengirimkan kado digital</p>
+      </div>
+      <div class="qris-img-container">
+        <img src="assets/Image/donate.webp" alt="QRIS Sekar" class="qris-img">
+      </div>
+      <div class="modal-footer-qris text-center">
+        <p class="owner-qris">a.n. SEKAR AYU KIRANA / BAGUS PRAWIRA</p>
+        <span class="qris-subtext">Terima kasih atas tanda kasih dan doa Anda</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alamat Fisik Modal -->
+  <div class="modal" id="alamat-modal">
+    <div class="modal-overlay" id="alamat-modal-close-bg"></div>
+    <div class="modal-content animate-zoom-in">
+      <button class="modal-close" id="alamat-modal-close-btn">&times;</button>
+      <div class="modal-header-alamat">
+        <h3><i class="bi bi-box-seam text-gold"></i> Kirim Kado Fisik</h3>
+        <p>Silakan kirimkan kado fisik Anda ke alamat berikut:</p>
+      </div>
+      <div class="alamat-detail">
+        <div class="address-box">
+          <strong>Penerima:</strong>
+          <p>Bagus & Sekar (Keluarga Bpk. Suwarno / Bpk. Bambang Widjojo)</p>
+
+          <strong>Alamat Pengiriman:</strong>
+          <p>RT 02, Desa Padang Jaya, Kec. Kuaro, Kab. Paser, Kalimantan Timur, 76281</p>
+
+          <strong>No. HP:</strong>
+          <p>0822-2924-3737</p>
+        </div>
+        <button class="btn-copy-address" id="btn-copy-address">
+          <i class="bi bi-clipboard-check"></i> Salin Alamat Pengiriman
+        </button>
+      </div>
+      <div class="modal-footer-alamat text-center">
+        <span class="alamat-subtext">Mohon konfirmasi ke WA kami setelah mengirimkan kado</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Toast Notification -->
+  <div class="toast" id="toast-notif">
+    <div class="toast-content">
+      <i class="bi bi-check-circle-fill text-gold"></i>
+      <span id="toast-message">Berhasil disalin!</span>
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="modal lightbox-modal" id="lightbox-modal">
+    <div class="modal-overlay" id="lightbox-close-bg"></div>
+    <div class="lightbox-content animate-zoom-in">
+      <button class="lightbox-close" id="lightbox-close-btn">&times;</button>
+      <img src="" alt="Zoom Photo" class="lightbox-img" id="lightbox-img">
+      <p class="lightbox-caption" id="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <!-- Main Scripts -->
+  <script src="script.js"></script>
+</body>
+
+</html>
