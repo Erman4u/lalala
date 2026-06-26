@@ -169,14 +169,30 @@ function renderRsvpTable(filterVal = 'all') {
     tr.innerHTML = `
       <td><small style="color:var(--text-muted);">${formatDateTime(rsvp.created_at)}</small></td>
       <td><strong>${rsvp.guest_name}</strong></td>
-      <td>${rsvp.phone || '-'}</td>
       <td>${attBadge}</td>
       <td>${rsvp.attendance === 'hadir' ? rsvp.pax : '-'}</td>
-      <td><div style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${rsvp.message || ''}">${rsvp.message || '-'}</div></td>
+      <td><div style="max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${rsvp.message || ''}">${rsvp.message || '-'}</div></td>
+      <td>
+        <button class="btn btn-sm btn-danger" onclick="deleteRsvp('${rsvp.id}')" title="Hapus ucapan ini">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
     `;
     tbody.appendChild(tr);
   });
 }
+
+window.deleteRsvp = async function(id) {
+  if (!confirm('Hapus ucapan ini dari daftar?\n(Tidak bisa dibatalkan)')) return;
+  const { error } = await supabase.from('rsvp_submissions').delete().eq('id', id);
+  if (!error) {
+    allRsvps = allRsvps.filter(r => r.id !== id);
+    renderRsvpTable();
+    showToast('Ucapan berhasil dihapus', 'success');
+  } else {
+    showToast('Gagal menghapus: ' + error.message, 'error');
+  }
+};
 
 function renderGiftsTable() {
   const tbody = document.querySelector('#giftsTable tbody');
