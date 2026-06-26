@@ -3,19 +3,60 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ==========================================================================
      1. GUEST NAME INITIALIZATION (DYNAMIC URL)
      ========================================================================== */
-  const getGuestName = () => {
+  /* ==========================================================================
+     1. GUEST NAME INITIALIZATION (DYNAMIC URL via SUPABASE)
+     ========================================================================== */
+  let guestId = null; // Save UUID
+  let guestToken = null; // Save QR Token
+
+  const getGuestData = async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const guest = urlParams.get('to');
+    
+    // Support lama (?to=NAMA)
+    const oldGuest = urlParams.get('to');
     const guestNameEl = document.getElementById('tamu-name');
     
-    if (guest && guest.trim() !== "") {
-      // Decode and clean the guest name
-      guestNameEl.textContent = decodeURIComponent(guest);
+    // Support baru (?tamu=TOKEN)
+    const token = urlParams.get('tamu');
+    const qrSection = document.getElementById('guestQrSection');
+    
+    if (token) {
+      guestToken = token;
+      try {
+        const { data, error } = await supabase
+          .from('guests')
+          .select('*')
+          .eq('qr_token', token)
+          .single();
+          
+        if (!error && data) {
+          guestId = data.id;
+          guestNameEl.textContent = data.name;
+          
+          // Tampilkan QR di cover
+          document.getElementById('coverGuestName').textContent = data.name;
+          new QRCode(document.getElementById('coverQrCode'), {
+            text: token,
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.M
+          });
+          qrSection.classList.add('visible'); // pastikan muncul
+        } else {
+          guestNameEl.textContent = "Tamu Terhormat";
+        }
+      } catch (err) {
+        guestNameEl.textContent = "Tamu Terhormat";
+      }
+    } else if (oldGuest && oldGuest.trim() !== "") {
+      guestNameEl.textContent = decodeURIComponent(oldGuest);
     } else {
       guestNameEl.textContent = "Tamu Terhormat";
     }
   };
-  getGuestName();
+  getGuestData();
 
   /* ==========================================================================
      2. MUSIC PLAYER & COVER OVERLAY MECHANISM
@@ -707,5 +748,117 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
+  /* ==========================================================================
+     14. RSVP & LIVE WISHES (SUPABASE)
+     ========================================================================== */
+  const rsvpForm = document.getElementById('rsvp-form');
+  const btnSubmitRsvp = document.getElementById('btn-submit-rsvp');
+  const wishesContainer = document.getElementById('wishes-container');
+
+  if (rsvpForm && typeof supabase !== 'undefined') {
+    // 1. Submit RSVP
+    rsvpForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const btnText = btnSubmitRsvp.querySelector('.btn-text');
+      const btnLoading = btnSubmitRsvp.querySelector('.btn-loading-spinner');
+      
+      btnText.style.display = 'none';
+      btnLoading.style.display = 'inline-block';
+      btnSubmitRsvp.disabled = true;
+
+      const payload = {
+        guest_name: document.getElementById('nama').value,
+        attendance: document.getElementById('kehadiran').value === 'Hadir' ? 'hadir' : 'tidak_hadir',
+        pax: parseInt(document.getElementById('jumlah-tamu').value.split(' ')[0]),
+        message: document.getElementById('ucapan').value,
+        linked_guest_id: guestId // Didapat dari getGuestData() di awal script
+      };
+
+      try {
+        // Insert ke rsvp_submissions
+        const { error } = await supabase.from('rsvp_submissions').insert([payload]);
+        if (error) throw error;
+
+        // Jika terhubung dengan guest_id, update status RSVP tamu tsb
+        if (guestId) {
+          await supabase.from('guests').update({ rsvp_status: payload.attendance }).eq('id', guestId);
+        }
+
+        alert('Terima kasih! Konfirmasi & ucapan Anda telah terkirim.');
+        rsvpForm.reset();
+        
+      } catch (err) {
+        console.error(err);
+        alert('Maaf, terjadi kesalahan saat mengirim data. Silakan coba lagi.');
+      } finally {
+        btnText.style.display = 'inline-block';
+        btnLoading.style.display = 'none';
+        btnSubmitRsvp.disabled = false;
+      }
+    });
+
+    // 2. Load Existing Wishes
+    const loadWishes = async () => {
+      const { data, error } = await supabase
+        .from('rsvp_submissions')
+        .select('*')
+        .not('message', 'is', null)
+        .order('created_at', { ascending: false })
+        .limit(20);
+
+      if (!error && data && data.length > 0) {
+        renderWishes(data);
+      }
+    };
+    loadWishes();
+
+    // 3. Realtime Updates
+    supabase.channel('public:rsvp_submissions')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'rsvp_submissions' }, payload => {
+        if (payload.new.message) {
+          appendWish(payload.new);
+        }
+      })
+      .subscribe();
+  }
+
+  function renderWishes(wishes) {
+    wishesContainer.innerHTML = '';
+    wishes.forEach(wish => appendWish(wish, false));
+  }
+
+  function appendWish(wish, prepend = true) {
+    const noWishes = document.getElementById('no-wishes');
+    if (noWishes) noWishes.style.display = 'none';
+
+    const card = document.createElement('div');
+    card.className = 'wish-item animate-fade-in-up';
+    card.style.animationDelay = '0.1s';
+    
+    // Status Badge
+    let badgeHtml = '';
+    if (wish.attendance === 'hadir') {
+      badgeHtml = `<span class="wish-status hadir"><i class="bi bi-check-circle-fill"></i> Hadir</span>`;
+    } else if (wish.attendance === 'tidak_hadir') {
+      badgeHtml = `<span class="wish-status tidak-hadir"><i class="bi bi-x-circle-fill"></i> Tidak Hadir</span>`;
+    }
+
+    card.innerHTML = `
+      <div class="wish-header">
+        <h4 class="wish-name">${wish.guest_name}</h4>
+        ${badgeHtml}
+      </div>
+      <p class="wish-text">"${wish.message}"</p>
+      <span class="wish-tamu-qty">${new Date(wish.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric'})}</span>
+    `;
+
+    if (prepend) {
+      wishesContainer.prepend(card);
+    } else {
+      wishesContainer.appendChild(card);
+    }
+  }
 
 });

@@ -25,6 +25,11 @@
   <meta property="twitter:image" content="https://github.com/Erman4u/Publish-Image/blob/main/template17.webp?raw=true">
 
   <title>Undangan Pernikahan - Bagus & Sekar</title>
+  <!-- Dashboard Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="dashboard/config.js"></script>
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +66,13 @@
           <p class="tamu-label">Yth. Bapak / Ibu / Saudara/i</p>
           <h2 class="tamu-name" id="tamu-name">Tamu Terhormat</h2>
           <p class="tamu-desc">Kami mengundang Anda untuk merayakan hari istimewa kami</p>
+        </div>
+
+        <!-- Guest QR Section (Muncul jika ada ?tamu=) -->
+        <div class="guest-qr-section" id="guestQrSection">
+          <div class="guest-qr-name" id="coverGuestName">Nama Tamu</div>
+          <div class="guest-qr-canvas" id="coverQrCode"></div>
+          <div class="guest-qr-hint">Tunjukkan QR Code ini saat kedatangan</div>
         </div>
 
         <button class="btn-buka animate-pulse delay-5" id="btn-buka">

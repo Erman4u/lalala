@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Bagus & Sekar</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <h2>Bagus & Sekar</h2>
+        <p>Wedding Dashboard</p>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Main Menu</div>
+        <button class="nav-link active" data-page="home"><i class="bi bi-grid-fill"></i> Ringkasan</button>
+        <button class="nav-link" data-page="guests"><i class="bi bi-people-fill"></i> Data Tamu</button>
+        <button class="nav-link" data-page="rsvp"><i class="bi bi-envelope-heart-fill"></i> RSVP & Ucapan</button>
+        <button class="nav-link" data-page="gifts"><i class="bi bi-gift-fill"></i> Kado & Amplop</button>
+        
+        <div class="nav-section-label" style="margin-top:20px;">Scanner</div>
+        <a href="checkin.html" target="_blank" class="nav-link"><i class="bi bi-qr-code-scan"></i> Buka Scanner</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar">A</div>
+          <div>
+            <div class="user-name">Admin</div>
+            <div class="user-role">Full Access</div>
+          </div>
+        </div>
+        <button class="nav-link danger" id="btnLogout" style="margin-top: 10px;"><i class="bi bi-box-arrow-left"></i> Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <!-- Topbar -->
+      <header class="topbar">
+        <button class="hamburger" id="btnMenu"><i class="bi bi-list"></i></button>
+        <div class="topbar-title" id="pageTitle">Ringkasan Acara</div>
+        <div class="topbar-right">
+          <span class="badge badge-checkin" id="connectionStatus"><i class="bi bi-wifi"></i> Online</span>
+        </div>
+      </header>
+
+      <!-- PAGE: HOME -->
+      <div class="page active" id="page-home">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+            <div>
+              <div class="stat-value" id="statTotalGuests">0</div>
+              <div class="stat-label">Total Tamu Diundang</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="bi bi-check-circle-fill"></i></div>
+            <div>
+              <div class="stat-value" id="statCheckedIn">0</div>
+              <div class="stat-label">Tamu Check-In</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon gold"><i class="bi bi-envelope-paper-fill"></i></div>
+            <div>
+              <div class="stat-value" id="statRsvpHadir">0</div>
+              <div class="stat-label">RSVP Hadir</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red"><i class="bi bi-x-circle-fill"></i></div>
+            <div>
+              <div class="stat-value" id="statRsvpTidak">0</div>
+              <div class="stat-label">RSVP Tidak Hadir</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <!-- Live Activity Feed -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="bi bi-activity"></i> Aktivitas Check-in Live</div>
+            </div>
+            <div class="card-body">
+              <div class="activity-list" id="activityFeed">
+                <div class="empty-state">
+                  <i class="bi bi-clock-history"></i>
+                  <p>Belum ada aktivitas check-in.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Ucapan -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="bi bi-chat-heart-fill"></i> Ucapan Terbaru</div>
+              <button class="btn btn-sm btn-outline" onclick="switchPage('rsvp')">Lihat Semua</button>
+            </div>
+            <div class="card-body">
+              <div class="wish-list" id="homeWishList">
+                <!-- Data dari JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: GUESTS -->
+      <div class="page" id="page-guests">
+        <div class="toolbar">
+          <button class="btn btn-primary" id="btnAddGuest"><i class="bi bi-person-plus-fill"></i> Tambah Tamu</button>
+          <button class="btn btn-outline" id="btnImportGuest"><i class="bi bi-file-earmark-excel-fill"></i> Import Excel</button>
+          <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control" id="searchGuest" placeholder="Cari nama tamu...">
+          </div>
+          <div style="margin-left:auto;">
+            <span class="badge badge-pending" id="guestCountLabel">Total: 0</span>
+          </div>
+        </div>
+
+        <div class="card table-wrapper">
+          <table id="guestsTable">
+            <thead>
+              <tr>
+                <th>Nama Tamu</th>
+                <th>Pihak</th>
+                <th>Sesi</th>
+                <th>Status RSVP</th>
+                <th>Check-In</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Data -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PAGE: RSVP -->
+      <div class="page" id="page-rsvp">
+        <div class="toolbar">
+          <select class="form-select" id="filterRsvp" style="max-width: 200px;">
+            <option value="all">Semua RSVP</option>
+            <option value="hadir">Hadir</option>
+            <option value="tidak_hadir">Tidak Hadir</option>
+          </select>
+          <div style="margin-left:auto;">
+            <span class="badge badge-pending" id="rsvpCountLabel">Total: 0</span>
+          </div>
+        </div>
+
+        <div class="card table-wrapper">
+          <table id="rsvpTable">
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>Nama (di Form)</th>
+                <th>No HP</th>
+                <th>Kehadiran</th>
+                <th>Pax</th>
+                <th>Ucapan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Data -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PAGE: GIFTS -->
+      <div class="page" id="page-gifts">
+        <div class="toolbar">
+          <button class="btn btn-primary" id="btnAddGift"><i class="bi bi-plus-circle-fill"></i> Catat Hadiah</button>
+          <div style="margin-left:auto; display:flex; gap: 20px;">
+            <div style="text-align: right;">
+              <div class="gift-total-label">Total Amplop</div>
+              <div class="gift-total" id="totalAmplop">Rp 0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card table-wrapper">
+          <table id="giftsTable">
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>Dari</th>
+                <th>Jenis</th>
+                <th>Nominal / Keterangan</th>
+                <th>Catatan Tambahan</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Data -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODALS -->
+
+  <!-- Modal Tambah/Edit Tamu -->
+  <div class="modal-overlay" id="modalGuest">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" id="modalGuestTitle">Tambah Tamu Baru</div>
+        <button class="modal-close" onclick="closeModal('modalGuest')"><i class="bi bi-x"></i></button>
+      </div>
+      <form id="formGuest">
+        <div class="modal-body">
+          <input type="hidden" id="guestId">
+          <div class="form-group">
+            <label class="form-label">Nama Lengkap</label>
+            <input type="text" class="form-control" id="guestName" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">No. WhatsApp</label>
+            <input type="text" class="form-control" id="guestPhone" placeholder="Contoh: 08123456789">
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Pihak / Grup</label>
+              <select class="form-select" id="guestGroup">
+                <option value="Umum">Umum</option>
+                <option value="Keluarga Pria">Keluarga Pria</option>
+                <option value="Keluarga Wanita">Keluarga Wanita</option>
+                <option value="Teman Pria">Teman Pria</option>
+                <option value="Teman Wanita">Teman Wanita</option>
+                <option value="VIP">VIP</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sesi</label>
+              <select class="form-select" id="guestSession">
+                <option value="Keduanya">Keduanya (Pemberkatan & Resepsi)</option>
+                <option value="Pemberkatan">Pemberkatan Saja</option>
+                <option value="Resepsi">Resepsi Saja</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalGuest')">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveGuest">Simpan Data</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Import Excel -->
+  <div class="modal-overlay" id="modalImport">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">Import Data Tamu</div>
+        <button class="modal-close" onclick="closeModal('modalImport')"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">
+          Format Excel yang didukung: <strong>.xlsx, .xls, .csv</strong>.<br>
+          Kolom wajib (baris 1): <code>name</code>, <code>phone</code>, <code>group_name</code>, <code>session</code>.
+        </p>
+        <div class="drop-zone" id="dropZone">
+          <i class="bi bi-cloud-arrow-up-fill"></i>
+          <p>Tarik & lepas file Excel di sini, atau <strong>Klik untuk Upload</strong></p>
+          <input type="file" id="fileInput" accept=".xlsx, .xls, .csv" style="display: none;">
+        </div>
+        <div id="importResult" style="display: none; margin-top: 15px; font-size: 0.85rem; color: var(--success);">
+          <i class="bi bi-check-circle-fill"></i> <span id="importResultText">Siap diimport (10 baris)</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalImport')">Batal</button>
+        <button type="button" class="btn btn-primary" id="btnProcessImport" disabled>Proses Import</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal QR Code -->
+  <div class="modal-overlay" id="modalQR">
+    <div class="modal-box" style="max-width: 380px;">
+      <div class="modal-header">
+        <div class="modal-title">QR Code Tamu</div>
+        <button class="modal-close" onclick="closeModal('modalQR')"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="modal-body" style="align-items: center; text-align: center;">
+        <h3 id="qrGuestName" style="color: var(--gold); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 5px;">Nama Tamu</h3>
+        <p id="qrGuestGroup" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Grup Tamu</p>
+        
+        <div style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+          <div id="qrcode"></div>
+        </div>
+
+        <div class="form-group" style="width: 100%; text-align: left;">
+          <label class="form-label">Link Undangan Digital:</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" class="form-control" id="qrLink" readonly style="font-size: 0.75rem;">
+            <button class="btn btn-outline btn-icon" id="btnCopyLink"><i class="bi bi-copy"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn btn-primary" id="btnDownloadQR"><i class="bi bi-download"></i> Download QR</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
