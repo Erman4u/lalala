@@ -480,19 +480,21 @@ window.showQR = function(id) {
   const qrContainer = document.getElementById('qrcode');
   qrContainer.innerHTML = ''; // clear previous
   
-  // Buat URL undangan = sama seperti halaman sekarang, tapi ganti /dashboard/app.html dengan /index.html
-  const origin = window.location.origin;
-  const pathBase = window.location.pathname
-    .replace('/dashboard/app.html', '')
-    .replace('/dashboard/', '/')
-    .replace(/\/+$/, ''); // hapus trailing slash
-  const inviteUrl = `${origin}${pathBase}/index.html?tamu=${guest.qr_token}`;
+  // === URL CONFIG ===
+  // Link QR (dengan token untuk check-in)
+  const BASE_URL = 'https://lalala.enpdigitalservice.my.id';
+  const inviteUrl     = `${BASE_URL}/?tamu=${guest.qr_token}`;
+  const simpleLinkUrl = `${BASE_URL}/?to=${encodeURIComponent(guest.name)}`;
   
   document.getElementById('qrLink').value = inviteUrl;
 
-  // Generate QR Code
+  // Link sederhana (tanpa QR, cuma nama)
+  const simpleLinkEl = document.getElementById('simpleLinkInput');
+  if (simpleLinkEl) simpleLinkEl.value = simpleLinkUrl;
+
+  // Generate QR Code (token saja, bukan full URL — scanner di checkin.js baca tokennya)
   new QRCode(qrContainer, {
-    text: guest.qr_token, // Di scan oleh scanner check-in, butuh tokennya aja
+    text: guest.qr_token,
     width: 200,
     height: 200,
     colorDark: "#000000",
@@ -500,7 +502,7 @@ window.showQR = function(id) {
     correctLevel: QRCode.CorrectLevel.M
   });
 
-  // Setup download button
+  // Download QR
   document.getElementById('btnDownloadQR').onclick = () => {
     const canvas = qrContainer.querySelector('canvas');
     if (canvas) {
@@ -511,12 +513,29 @@ window.showQR = function(id) {
     }
   };
 
+  // Copy link QR
   document.getElementById('btnCopyLink').onclick = () => {
     navigator.clipboard.writeText(inviteUrl);
-    showToast('Link dicopy ke clipboard', 'success');
+    showToast('Link QR dicopy ke clipboard ✓', 'success');
   };
 
+  // Copy link sederhana
+  const btnCopySimple = document.getElementById('btnCopySimpleLink');
+  if (btnCopySimple) {
+    btnCopySimple.onclick = () => {
+      navigator.clipboard.writeText(simpleLinkUrl);
+      showToast('Link sederhana dicopy ke clipboard ✓', 'success');
+    };
+  }
+
   openModal('modalQR');
+};
+
+// Fungsi Copy Link Umum
+window.copyGeneralLink = function() {
+  const BASE_URL = 'https://lalala.enpdigitalservice.my.id/';
+  navigator.clipboard.writeText(BASE_URL);
+  showToast('Link Umum dicopy ke clipboard ✓', 'success');
 };
 
 // --- Realtime Setup ---

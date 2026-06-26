@@ -283,155 +283,122 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================================
-     7. RSVP FORM & LOCALSTORAGE WISH WALL
+     7. RSVP FORM & LIVE WISH WALL (SUPABASE)
      ========================================================================== */
   const rsvpForm = document.getElementById('rsvp-form');
   const wishesContainer = document.getElementById('wishes-container');
   const noWishesMsg = document.getElementById('no-wishes');
   const btnSubmitRsvp = document.getElementById('btn-submit-rsvp');
-  const btnText = btnSubmitRsvp.querySelector('.btn-text');
-  const btnLoading = btnSubmitRsvp.querySelector('.btn-loading-spinner');
-
-  const LOCAL_STORAGE_KEY = 'wishes_wedding_bagus_sekar';
-
-  // Cute mock wishes to populate if empty
-  const defaultWishes = [
-    {
-      name: "Bapak Lurah",
-      guestCount: "1 Orang",
-      status: "Hadir",
-      wish: "Selamat ya Mas Bagus dan Mbak Sekar! Semoga menjadi keluarga yang diberkati Tuhan dan selalu dalam lindungan-Nya. Ikut bahagia melihat kalian berdua.",
-      timestamp: "20 Mei 2026, 14:00"
-    },
-    {
-      name: "Dinda Larasati",
-      guestCount: "2 Orang",
-      status: "Hadir",
-      wish: "Happy Wedding Sekar sayang! Akhirnya pelabuhan terakhirnya ketemu juga. Lancar sampai hari H ya, can't wait to see you in your kebaya! ❤️",
-      timestamp: "20 Mei 2026, 11:24"
-    },
-    {
-      name: "Mas Eko",
-      guestCount: "1 Orang",
-      status: "Masih Ragu",
-      wish: "Selamat Mas Bagus! Mantap tenan akhirnya nyusul juga. Semoga dilancarkan acaranya ya lur!",
-      timestamp: "19 Mei 2026, 18:45"
-    }
-  ];
-
-  const getWishes = () => {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error("Error parsing wishes: ", e);
-        return defaultWishes;
-      }
-    } else {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(defaultWishes));
-      return defaultWishes;
-    }
-  };
-
-  const saveWish = (name, guestCount, status, wish) => {
-    const wishes = getWishes();
-    
-    // Format timestamp nicely in Indonesian locale format
-    const now = new Date();
-    const options = { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' };
-    const timestamp = now.toLocaleDateString('id-ID', options).replace('.', ':');
-
-    const newWishObj = { name, guestCount, status, wish, timestamp };
-    wishes.unshift(newWishObj); // Add to the beginning of the array (newest first)
-    
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(wishes));
-    return newWishObj;
-  };
-
-  const renderWishes = () => {
-    const wishes = getWishes();
-    wishesContainer.innerHTML = "";
-
-    if (wishes.length === 0) {
-      noWishesMsg.style.display = 'block';
-      wishesContainer.appendChild(noWishesMsg);
-      return;
-    }
-
-    noWishesMsg.style.display = 'none';
-
-    wishes.forEach(item => {
-      const wishItem = document.createElement('div');
-      wishItem.classList.add('wish-item');
-
-      let badgeClass = "ragu";
-      if (item.status === "Hadir") badgeClass = "hadir";
-      else if (item.status === "Tidak Hadir") badgeClass = "tidak-hadir";
-
-      wishItem.innerHTML = `
-        <div class="wish-header">
-          <span class="wish-name">${escapeHTML(item.name)}</span>
-          <span class="wish-status ${badgeClass}">${item.status}</span>
-        </div>
-        <p class="wish-text">“${escapeHTML(item.wish)}”</p>
-        <span class="wish-tamu-qty"><i class="bi bi-people-fill"></i> ${item.guestCount} • <i class="bi bi-clock"></i> ${item.timestamp}</span>
-      `;
-      wishesContainer.appendChild(wishItem);
-    });
-  };
 
   // Prevent XSS
-  const escapeHTML = (str) => {
-    return str.replace(/[&<>'"]/g, 
+  const escapeHTML = (str = '') => {
+    return str.replace(/[&<>'"]/g,
       tag => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        "'": '&#39;',
-        '"': '&quot;'
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
       }[tag] || tag)
     );
   };
 
-  // RSVP Form submission handler
-  rsvpForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+  const appendWish = (wish, prepend = true) => {
+    if (noWishesMsg) noWishesMsg.style.display = 'none';
+    const card = document.createElement('div');
+    card.className = 'wish-item';
+    let badgeClass = 'ragu';
+    let badgeLabel = 'Belum Dikonfirmasi';
+    if (wish.attendance === 'hadir') { badgeClass = 'hadir'; badgeLabel = 'Hadir'; }
+    else if (wish.attendance === 'tidak_hadir') { badgeClass = 'tidak-hadir'; badgeLabel = 'Tidak Hadir'; }
+    const date = wish.created_at
+      ? new Date(wish.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' })
+      : '';
+    card.innerHTML = `
+      <div class="wish-header">
+        <span class="wish-name">${escapeHTML(wish.guest_name || wish.name)}</span>
+        <span class="wish-status ${badgeClass}">${badgeLabel}</span>
+      </div>
+      <p class="wish-text">&ldquo;${escapeHTML(wish.message || wish.wish)}&rdquo;</p>
+      <span class="wish-tamu-qty"><i class="bi bi-clock"></i> ${date}</span>
+    `;
+    if (prepend) wishesContainer.prepend(card);
+    else wishesContainer.appendChild(card);
+  };
 
-    const nameVal = document.getElementById('nama').value.trim();
-    const guestQtyVal = document.getElementById('jumlah-tamu').value;
-    const statusVal = document.getElementById('kehadiran').value;
-    const wishVal = document.getElementById('ucapan').value.trim();
-
-    if (!nameVal || !statusVal || !wishVal) {
-      showToast("Mohon lengkapi semua bidang form.");
-      return;
+  const loadWishes = async () => {
+    if (typeof supabase === 'undefined') return;
+    const { data, error } = await supabase
+      .from('rsvp_submissions')
+      .select('*')
+      .not('message', 'is', null)
+      .neq('message', '')
+      .order('created_at', { ascending: false })
+      .limit(30);
+    if (!error && data && data.length > 0) {
+      wishesContainer.innerHTML = '';
+      if (noWishesMsg) noWishesMsg.style.display = 'none';
+      data.forEach(w => appendWish(w, false));
     }
+  };
+  loadWishes();
 
-    // Toggle loading state
-    btnSubmitRsvp.disabled = true;
-    btnText.style.display = 'none';
-    btnLoading.style.display = 'inline-flex';
+  // Realtime: tambah ucapan baru tanpa refresh
+  if (typeof supabase !== 'undefined') {
+    supabase.channel('live-wishes')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'rsvp_submissions' }, payload => {
+        if (payload.new && payload.new.message) appendWish(payload.new, true);
+      })
+      .subscribe();
+  }
 
-    // Simulate sending time delay (1.2 seconds)
-    setTimeout(() => {
-      saveWish(nameVal, guestQtyVal, statusVal, wishVal);
-      renderWishes();
-      
-      // Reset form
-      rsvpForm.reset();
-      
-      // Reset button state
-      btnSubmitRsvp.disabled = false;
-      btnText.style.display = 'inline-flex';
-      btnLoading.style.display = 'none';
-      
-      showToast("Konfirmasi RSVP & doa berhasil dikirim!");
-    }, 1200);
-  });
+  if (rsvpForm) {
+    rsvpForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-  // Render initial wishes
-  renderWishes();
+      const nameVal   = document.getElementById('nama').value.trim();
+      const statusVal = document.getElementById('kehadiran').value;
+      const paxRaw    = document.getElementById('jumlah-tamu').value;
+      const wishVal   = document.getElementById('ucapan').value.trim();
+
+      if (!nameVal || !statusVal || !wishVal) {
+        showToast('Mohon lengkapi semua bidang form.');
+        return;
+      }
+
+      const btnTextEl    = btnSubmitRsvp.querySelector('.btn-text');
+      const btnLoadingEl = btnSubmitRsvp.querySelector('.btn-loading-spinner');
+      btnSubmitRsvp.disabled = true;
+      if (btnTextEl)    btnTextEl.style.display    = 'none';
+      if (btnLoadingEl) btnLoadingEl.style.display = 'inline-flex';
+
+      const payload = {
+        guest_name: nameVal,
+        attendance: statusVal === 'Hadir' ? 'hadir' : (statusVal === 'Tidak Hadir' ? 'tidak_hadir' : null),
+        pax: parseInt(paxRaw) || 1,
+        message: wishVal,
+        linked_guest_id: guestId || null
+      };
+
+      try {
+        if (typeof supabase !== 'undefined') {
+          const { error } = await supabase.from('rsvp_submissions').insert([payload]);
+          if (error) throw error;
+          if (guestId) {
+            await supabase.from('guests').update({ rsvp_status: payload.attendance }).eq('id', guestId);
+          }
+        } else {
+          // Fallback: simpan lokal jika supabase belum tersambung
+          appendWish({ ...payload, created_at: new Date().toISOString() }, true);
+        }
+        showToast('Terima kasih! Ucapan & konfirmasi terkirim 🤍');
+        rsvpForm.reset();
+      } catch (err) {
+        console.error(err);
+        showToast('Gagal mengirim. Silakan coba lagi.');
+      } finally {
+        btnSubmitRsvp.disabled = false;
+        if (btnTextEl)    btnTextEl.style.display    = 'inline-flex';
+        if (btnLoadingEl) btnLoadingEl.style.display = 'none';
+      }
+    });
+  }
 
   /* ==========================================================================
      8. DYNAMIC FALLING PETALS EFFECT (ROMANTIC & NATURAL FEEL)
@@ -773,116 +740,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ==========================================================================
-     14. RSVP & LIVE WISHES (SUPABASE)
-     ========================================================================== */
-  const rsvpForm = document.getElementById('rsvp-form');
-  const btnSubmitRsvp = document.getElementById('btn-submit-rsvp');
-  const wishesContainer = document.getElementById('wishes-container');
-
-  if (rsvpForm && typeof supabase !== 'undefined') {
-    // 1. Submit RSVP
-    rsvpForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const btnText = btnSubmitRsvp.querySelector('.btn-text');
-      const btnLoading = btnSubmitRsvp.querySelector('.btn-loading-spinner');
-      
-      btnText.style.display = 'none';
-      btnLoading.style.display = 'inline-block';
-      btnSubmitRsvp.disabled = true;
-
-      const payload = {
-        guest_name: document.getElementById('nama').value,
-        attendance: document.getElementById('kehadiran').value === 'Hadir' ? 'hadir' : 'tidak_hadir',
-        pax: parseInt(document.getElementById('jumlah-tamu').value.split(' ')[0]),
-        message: document.getElementById('ucapan').value,
-        linked_guest_id: guestId // Didapat dari getGuestData() di awal script
-      };
-
-      try {
-        // Insert ke rsvp_submissions
-        const { error } = await supabase.from('rsvp_submissions').insert([payload]);
-        if (error) throw error;
-
-        // Jika terhubung dengan guest_id, update status RSVP tamu tsb
-        if (guestId) {
-          await supabase.from('guests').update({ rsvp_status: payload.attendance }).eq('id', guestId);
-        }
-
-        alert('Terima kasih! Konfirmasi & ucapan Anda telah terkirim.');
-        rsvpForm.reset();
-        
-      } catch (err) {
-        console.error(err);
-        alert('Maaf, terjadi kesalahan saat mengirim data. Silakan coba lagi.');
-      } finally {
-        btnText.style.display = 'inline-block';
-        btnLoading.style.display = 'none';
-        btnSubmitRsvp.disabled = false;
-      }
-    });
-
-    // 2. Load Existing Wishes
-    const loadWishes = async () => {
-      const { data, error } = await supabase
-        .from('rsvp_submissions')
-        .select('*')
-        .not('message', 'is', null)
-        .order('created_at', { ascending: false })
-        .limit(20);
-
-      if (!error && data && data.length > 0) {
-        renderWishes(data);
-      }
-    };
-    loadWishes();
-
-    // 3. Realtime Updates
-    supabase.channel('public:rsvp_submissions')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'rsvp_submissions' }, payload => {
-        if (payload.new.message) {
-          appendWish(payload.new);
-        }
-      })
-      .subscribe();
-  }
-
-  function renderWishes(wishes) {
-    wishesContainer.innerHTML = '';
-    wishes.forEach(wish => appendWish(wish, false));
-  }
-
-  function appendWish(wish, prepend = true) {
-    const noWishes = document.getElementById('no-wishes');
-    if (noWishes) noWishes.style.display = 'none';
-
-    const card = document.createElement('div');
-    card.className = 'wish-item animate-fade-in-up';
-    card.style.animationDelay = '0.1s';
-    
-    // Status Badge
-    let badgeHtml = '';
-    if (wish.attendance === 'hadir') {
-      badgeHtml = `<span class="wish-status hadir"><i class="bi bi-check-circle-fill"></i> Hadir</span>`;
-    } else if (wish.attendance === 'tidak_hadir') {
-      badgeHtml = `<span class="wish-status tidak-hadir"><i class="bi bi-x-circle-fill"></i> Tidak Hadir</span>`;
-    }
-
-    card.innerHTML = `
-      <div class="wish-header">
-        <h4 class="wish-name">${wish.guest_name}</h4>
-        ${badgeHtml}
-      </div>
-      <p class="wish-text">"${wish.message}"</p>
-      <span class="wish-tamu-qty">${new Date(wish.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric'})}</span>
-    `;
-
-    if (prepend) {
-      wishesContainer.prepend(card);
-    } else {
-      wishesContainer.appendChild(card);
-    }
-  }
 
 });

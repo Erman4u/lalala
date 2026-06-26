@@ -123,6 +123,7 @@
         <div class="toolbar">
           <button class="btn btn-primary" id="btnAddGuest"><i class="bi bi-person-plus-fill"></i> Tambah Tamu</button>
           <button class="btn btn-outline" id="btnImportGuest"><i class="bi bi-file-earmark-excel-fill"></i> Import Excel</button>
+          <button class="btn btn-outline" id="btnCopyGeneralLink" onclick="copyGeneralLink()" title="Copy link umum (Tamu Terhormat)"><i class="bi bi-link-45deg"></i> Link Umum</button>
           <div class="search-wrap">
             <i class="bi bi-search"></i>
             <input type="text" class="form-control" id="searchGuest" placeholder="Cari nama tamu...">
@@ -311,11 +312,21 @@
         </div>
 
         <div class="form-group" style="width: 100%; text-align: left;">
-          <label class="form-label">Link Undangan Digital:</label>
+          <label class="form-label"><i class="bi bi-qr-code" style="color:var(--gold);"></i> Link QR Check-in:</label>
           <div style="display: flex; gap: 8px;">
-            <input type="text" class="form-control" id="qrLink" readonly style="font-size: 0.75rem;">
-            <button class="btn btn-outline btn-icon" id="btnCopyLink"><i class="bi bi-copy"></i></button>
+            <input type="text" class="form-control" id="qrLink" readonly style="font-size: 0.72rem;">
+            <button class="btn btn-outline btn-icon" id="btnCopyLink" title="Copy Link QR"><i class="bi bi-copy"></i></button>
           </div>
+          <small style="color:var(--text-muted); font-size:0.68rem;">Scan QR = panitia bisa check-in tamu</small>
+        </div>
+
+        <div class="form-group" style="width: 100%; text-align: left; margin-top: 4px;">
+          <label class="form-label"><i class="bi bi-link-45deg" style="color:var(--gold);"></i> Link Undangan Sederhana (tanpa QR):</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" class="form-control" id="simpleLinkInput" readonly style="font-size: 0.72rem;">
+            <button class="btn btn-outline btn-icon" id="btnCopySimpleLink" title="Copy Link Sederhana"><i class="bi bi-copy"></i></button>
+          </div>
+          <small style="color:var(--text-muted); font-size:0.68rem;">Bagikan ke tamu yang tidak butuh check-in QR</small>
         </div>
       </div>
       <div class="modal-footer" style="justify-content: center;">
