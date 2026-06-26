@@ -489,14 +489,14 @@ li {
 }
 
 /* ==========================================================================
-   QR MODAL POPUP
+   QR MODAL POPUP — PREMIUM WEDDING CARD STYLE
    ========================================================================== */
 .qr-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 10, 0, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(10, 7, 0, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -504,7 +504,7 @@ li {
   padding: 20px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
 .qr-modal-overlay.open {
@@ -513,64 +513,221 @@ li {
 }
 
 .qr-modal-box {
-  background: linear-gradient(160deg, #1A1200, #0F0C07);
-  border: 1px solid rgba(245, 200, 66, 0.4);
-  border-radius: 24px;
-  padding: 32px 28px;
-  text-align: center;
-  max-width: 340px;
+  position: relative;
   width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(245, 200, 66, 0.08);
-  transform: scale(0.9);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 340px;
+  background: linear-gradient(175deg, #1C1200 0%, #0A0800 40%, #140F00 100%);
+  border: 1px solid rgba(212, 170, 60, 0.5);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(212, 170, 60, 0.12),
+    0 25px 70px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 220, 80, 0.15);
+  transform: scale(0.88) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .qr-modal-overlay.open .qr-modal-box {
-  transform: scale(1);
+  transform: scale(1) translateY(0);
 }
 
+/* ── Foto Header Pasangan ── */
+.qr-card-photo {
+  position: relative;
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+}
+
+.qr-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: brightness(0.75) saturate(0.85);
+}
+
+/* Gradient overlay di atas foto */
+.qr-card-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.05) 0%,
+    rgba(20,13,0,0.85) 100%
+  );
+}
+
+/* Label "Wedding Invitation" di sudut foto */
+.qr-card-photo-label {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 2;
+  font-family: var(--font-heading, 'Cinzel', serif);
+  font-size: 0.62rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(245, 200, 66, 0.9);
+}
+
+/* Cincin emas dekoratif di tengah-bawah foto */
+.qr-card-rings {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-card-rings::before,
+.qr-card-rings::after {
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(212, 170, 60, 0.85);
+  box-shadow: 0 0 8px rgba(212, 170, 60, 0.4);
+}
+.qr-card-rings::before { left: 2px; }
+.qr-card-rings::after  { right: 2px; }
+
+/* ── Isi Kartu ── */
+.qr-card-body {
+  padding: 28px 24px 22px;
+  text-align: center;
+}
+
+/* Nama pengantin */
+.qr-card-couple {
+  font-family: var(--font-cursive, 'Great Vibes', cursive);
+  font-size: 2.1rem;
+  color: #F0C040;
+  line-height: 1.15;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 12px rgba(212, 170, 60, 0.4);
+}
+
+/* Garis dekor emas */
+.qr-card-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px auto 14px;
+  max-width: 220px;
+}
+.qr-card-divider span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,170,60,0.5), transparent);
+}
+.qr-card-divider i {
+  font-size: 0.7rem;
+  color: rgba(212,170,60,0.7);
+}
+
+/* Nama tamu undangan */
 .qr-modal-name {
-  font-family: var(--font-heading);
-  font-size: 1.8rem;
-  color: var(--color-accent);
-  margin-bottom: 6px;
+  font-family: var(--font-heading, 'Cinzel', serif);
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(212,170,60,0.6);
+  margin-bottom: 4px;
+}
+.qr-card-guest-name {
+  font-family: var(--font-heading, 'Cinzel', serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 18px;
   line-height: 1.2;
 }
 
+/* QR Code frame */
 .qr-modal-canvas {
-  display: inline-block;
-  background: white;
-  padding: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  padding: 12px;
   border-radius: 16px;
-  margin: 16px 0;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  margin-bottom: 14px;
+  box-shadow:
+    0 0 0 1px rgba(212,170,60,0.3),
+    0 8px 30px rgba(0,0,0,0.5);
 }
 
 .qr-modal-hint {
-  font-size: 0.82rem;
-  color: rgba(245, 200, 66, 0.6);
-  margin-bottom: 20px;
+  font-size: 0.75rem;
+  color: rgba(245,200,66,0.45);
+  margin-bottom: 18px;
   line-height: 1.5;
+  letter-spacing: 0.3px;
+}
+
+/* Tanggal acara */
+.qr-card-date {
+  font-family: var(--font-heading, 'Cinzel', serif);
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: rgba(212,170,60,0.55);
+  text-transform: uppercase;
+  margin-bottom: 16px;
 }
 
 .qr-modal-close {
   background: transparent;
-  border: 1px solid rgba(245, 200, 66, 0.4);
-  color: var(--color-accent);
-  padding: 10px 24px;
+  border: 1px solid rgba(212,170,60,0.35);
+  color: rgba(212,170,60,0.8);
+  padding: 9px 26px;
   border-radius: 30px;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-family: var(--font-body);
-  transition: background 0.2s ease, color 0.2s ease;
+  font-size: 0.8rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  letter-spacing: 1px;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
+}
+.qr-modal-close:hover {
+  background: rgba(212,170,60,0.15);
+  color: #fff;
+  border-color: rgba(212,170,60,0.7);
 }
 
-.qr-modal-close:hover {
-  background: rgba(245, 200, 66, 0.15);
-  color: #fff;
+/* Corner ornaments */
+.qr-modal-box::before,
+.qr-modal-box::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-color: rgba(212,170,60,0.3);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 5;
+}
+.qr-modal-box::before {
+  top: 12px; left: 12px;
+  border-width: 1px 0 0 1px;
+  border-radius: 6px 0 0 0;
+}
+.qr-modal-box::after {
+  bottom: 12px; right: 12px;
+  border-width: 0 1px 1px 0;
+  border-radius: 0 0 6px 0;
 }
 
 /* ==========================================================================

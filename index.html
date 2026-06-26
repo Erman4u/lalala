@@ -80,13 +80,46 @@
     <i class="bi bi-qr-code"></i>
   </button>
 
-  <!-- QR Modal Popup -->
+  <!-- QR Modal Popup — Premium Wedding Card -->
   <div class="qr-modal-overlay" id="qrModalOverlay">
     <div class="qr-modal-box">
-      <div class="qr-modal-name" id="qrModalName">Nama Tamu</div>
-      <div class="qr-modal-canvas" id="qrModalCanvas"></div>
-      <p class="qr-modal-hint">Tunjukkan QR Code ini kepada panitia saat tiba di lokasi</p>
-      <button class="qr-modal-close" id="qrModalClose"><i class="bi bi-x-circle-fill"></i> Tutup</button>
+
+      <!-- Foto Pasangan -->
+      <div class="qr-card-photo">
+        <span class="qr-card-photo-label">✦ Wedding Invitation ✦</span>
+        <img src="assets/Image/overlay.webp" alt="Bagus & Sekar">
+        <!-- Cincin Emas -->
+        <div class="qr-card-rings"></div>
+      </div>
+
+      <!-- Body Kartu -->
+      <div class="qr-card-body">
+        <!-- Nama Pengantin -->
+        <div class="qr-card-couple">Bagus &amp; Sekar</div>
+
+        <!-- Divider Dekoratif -->
+        <div class="qr-card-divider">
+          <span></span>
+          <i class="bi bi-heart-fill"></i>
+          <span></span>
+        </div>
+
+        <!-- Label & Nama Tamu -->
+        <div class="qr-modal-name">Kepada Yth.</div>
+        <div class="qr-card-guest-name" id="qrModalName">Tamu Terhormat</div>
+
+        <!-- QR Code -->
+        <div class="qr-modal-canvas" id="qrModalCanvas"></div>
+
+        <!-- Tanggal Acara -->
+        <div class="qr-card-date">15 · III · 2027</div>
+
+        <p class="qr-modal-hint">Tunjukkan QR ini kepada panitia saat tiba di lokasi</p>
+        <button class="qr-modal-close" id="qrModalClose">
+          <i class="bi bi-x-circle"></i> Tutup
+        </button>
+      </div>
+
     </div>
   </div>
 
