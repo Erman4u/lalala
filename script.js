@@ -18,7 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Support baru (?tamu=TOKEN)
     const token = urlParams.get('tamu');
-    const qrSection = document.getElementById('guestQrSection');
+    const qrBtn = document.getElementById('qr-btn');
+    const qrModalOverlay = document.getElementById('qrModalOverlay');
+    const qrModalClose = document.getElementById('qrModalClose');
     
     if (token) {
       guestToken = token;
@@ -32,18 +34,40 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!error && data) {
           guestId = data.id;
           guestNameEl.textContent = data.name;
-          
-          // Tampilkan QR di cover
-          document.getElementById('coverGuestName').textContent = data.name;
-          new QRCode(document.getElementById('coverQrCode'), {
+
+          // Isi nama di modal
+          document.getElementById('qrModalName').textContent = data.name;
+
+          // Generate QR di dalam modal (bukan di cover)
+          new QRCode(document.getElementById('qrModalCanvas'), {
             text: token,
-            width: 150,
-            height: 150,
+            width: 220,
+            height: 220,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.M
           });
-          qrSection.classList.add('visible'); // pastikan muncul
+
+          // Tampilkan floating QR button
+          if (qrBtn) qrBtn.style.display = 'flex';
+
+          // Klik QR button → buka modal
+          qrBtn.addEventListener('click', () => {
+            qrModalOverlay.classList.add('open');
+          });
+
+          // Tutup modal
+          qrModalClose.addEventListener('click', () => {
+            qrModalOverlay.classList.remove('open');
+          });
+
+          // Klik overlay gelap → tutup
+          qrModalOverlay.addEventListener('click', (e) => {
+            if (e.target === qrModalOverlay) {
+              qrModalOverlay.classList.remove('open');
+            }
+          });
+
         } else {
           guestNameEl.textContent = "Tamu Terhormat";
         }

@@ -68,17 +68,25 @@
           <p class="tamu-desc">Kami mengundang Anda untuk merayakan hari istimewa kami</p>
         </div>
 
-        <!-- Guest QR Section (Muncul jika ada ?tamu=) -->
-        <div class="guest-qr-section" id="guestQrSection">
-          <div class="guest-qr-name" id="coverGuestName">Nama Tamu</div>
-          <div class="guest-qr-canvas" id="coverQrCode"></div>
-          <div class="guest-qr-hint">Tunjukkan QR Code ini saat kedatangan</div>
-        </div>
-
         <button class="btn-buka animate-pulse delay-5" id="btn-buka">
           <i class="bi bi-envelope-open-fill"></i> Buka Undangan
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- Floating QR Button (muncul jika ?tamu=TOKEN ada) -->
+  <button class="floating-qr-btn" id="qr-btn" style="display:none;" title="Lihat QR Code Saya">
+    <i class="bi bi-qr-code"></i>
+  </button>
+
+  <!-- QR Modal Popup -->
+  <div class="qr-modal-overlay" id="qrModalOverlay">
+    <div class="qr-modal-box">
+      <div class="qr-modal-name" id="qrModalName">Nama Tamu</div>
+      <div class="qr-modal-canvas" id="qrModalCanvas"></div>
+      <p class="qr-modal-hint">Tunjukkan QR Code ini kepada panitia saat tiba di lokasi</p>
+      <button class="qr-modal-close" id="qrModalClose"><i class="bi bi-x-circle-fill"></i> Tutup</button>
     </div>
   </div>
 

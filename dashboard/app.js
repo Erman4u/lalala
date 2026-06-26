@@ -480,10 +480,13 @@ window.showQR = function(id) {
   const qrContainer = document.getElementById('qrcode');
   qrContainer.innerHTML = ''; // clear previous
   
-  // Buat URL QR = link undangan + ?tamu=QR_TOKEN
-  // Ubah ke URL undangan beneran nanti
-  const baseUrl = window.location.origin + window.location.pathname.replace('/dashboard/app.html', '/index.html');
-  const inviteUrl = `${baseUrl}?tamu=${guest.qr_token}`;
+  // Buat URL undangan = sama seperti halaman sekarang, tapi ganti /dashboard/app.html dengan /index.html
+  const origin = window.location.origin;
+  const pathBase = window.location.pathname
+    .replace('/dashboard/app.html', '')
+    .replace('/dashboard/', '/')
+    .replace(/\/+$/, ''); // hapus trailing slash
+  const inviteUrl = `${origin}${pathBase}/index.html?tamu=${guest.qr_token}`;
   
   document.getElementById('qrLink').value = inviteUrl;
 
