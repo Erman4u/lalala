@@ -448,8 +448,6 @@ document.addEventListener('DOMContentLoaded', () => {
      ========================================================================== */
   const carousel = document.getElementById('carousel');
   const slides = carousel.querySelectorAll('.carousel-slide');
-  const prevBtn = document.getElementById('carousel-prev-btn');
-  const nextBtn = document.getElementById('carousel-next-btn');
   const dotsContainer = document.getElementById('carousel-dots-container');
   const dots = dotsContainer.querySelectorAll('.dot');
   
@@ -499,15 +497,50 @@ document.addEventListener('DOMContentLoaded', () => {
     startCarouselAutoPlay();
   };
 
-  // Event Listeners for controls
-  nextBtn.addEventListener('click', () => {
-    nextSlide();
-    resetCarouselAutoPlay();
+  // Swipe & Drag Support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  const handleSwipe = () => {
+    if (touchEndX < touchStartX - 50) {
+      nextSlide();
+      resetCarouselAutoPlay();
+    }
+    if (touchEndX > touchStartX + 50) {
+      prevSlide();
+      resetCarouselAutoPlay();
+    }
+  };
+
+  carousel.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, {passive: true});
+
+  carousel.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, {passive: true});
+
+  let isDragging = false;
+  carousel.addEventListener('mousedown', e => {
+    isDragging = true;
+    touchStartX = e.screenX;
   });
 
-  prevBtn.addEventListener('click', () => {
-    prevSlide();
-    resetCarouselAutoPlay();
+  carousel.addEventListener('mouseup', e => {
+    if (isDragging) {
+      touchEndX = e.screenX;
+      isDragging = false;
+      handleSwipe();
+    }
+  });
+
+  carousel.addEventListener('mouseleave', e => {
+    if (isDragging) {
+      touchEndX = e.screenX;
+      isDragging = false;
+      handleSwipe();
+    }
   });
 
   // Dots click navigation
