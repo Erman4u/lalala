@@ -431,8 +431,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const startFallingPetals = () => {
-    const initialCount = isMobile() ? 3 : 6;
-    const intervalMs  = isMobile() ? 1200 : 700;
+    const initialCount = isMobile() ? 15 : 25;
+    const intervalMs  = isMobile() ? 500 : 300;
 
     // Spawn initial batch
     for (let i = 0; i < initialCount; i++) {
@@ -748,7 +748,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       // Resume petals (only if overlay was already opened)
       if (coverOverlay.classList.contains('unlocked') && !petalInterval) {
-        petalInterval = setInterval(createPetal, 600);
+        petalInterval = setInterval(createPetal, 300);
       }
       // Resume carousel
       if (!carouselTimer) {
