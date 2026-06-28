@@ -2982,10 +2982,10 @@ section {
 
   /* Pusatkan bottom nav di dalam 500px right pane */
   .bottom-nav {
-    width: 100% !important;
+    width: calc(500px - 30px) !important;
     max-width: 440px !important;
     left: auto !important;
-    right: 30px !important;
+    right: 15px !important;
     margin: 0 !important;
     position: fixed !important;
     transform: translateY(100px) !important; /* Pertahankan animasi slide up */
@@ -2993,6 +2993,41 @@ section {
   
   .bottom-nav.visible {
     transform: translateY(0) !important;
+  }
+
+  /* Fix stepper overflow in 500px right pane */
+  .love-story-stepper {
+    overflow-x: auto;
+    overflow-y: visible;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .love-story-stepper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .stepper-step {
+    padding: 8px 6px;
+    min-width: 64px;
+  }
+
+  .stepper-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .stepper-label {
+    font-size: 0.6rem;
+  }
+
+  .stepper-line {
+    min-width: 20px;
+    max-width: 40px;
   }
   
   .main-content {
