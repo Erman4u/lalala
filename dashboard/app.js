@@ -150,6 +150,7 @@ function renderGuestsTable(filterText = '') {
       <td>${statusBadge}</td>
       <td>${checkinBadge}</td>
       <td>
+        <button class="btn btn-sm" style="background:rgba(37,211,102,0.15);color:#25d366;border:1px solid rgba(37,211,102,0.3);" onclick="sendWAInvite('${guest.id}')" title="Kirim Undangan via WhatsApp"><i class="bi bi-whatsapp"></i></button>
         <button class="btn btn-sm btn-outline" onclick="showQR('${guest.id}')" title="Lihat QR"><i class="bi bi-qr-code"></i></button>
         <button class="btn btn-sm btn-outline" onclick="editGuest('${guest.id}')" title="Edit"><i class="bi bi-pencil"></i></button>
         <button class="btn btn-sm btn-danger" onclick="deleteGuest('${guest.id}')" title="Hapus"><i class="bi bi-trash"></i></button>
@@ -508,7 +509,7 @@ window.showQR = function(id) {
   
   // === URL CONFIG ===
   // Gunakan nama tamu bukan UUID token untuk link undangan
-  const BASE_URL = 'https://lalala.enpdigitalservice.my.id';
+  const BASE_URL = 'https://gerard-mega.enpdigitalservice.my.id';
   const guestNameEncoded = encodeURIComponent(guest.name);
   const inviteUrl     = `${BASE_URL}/?to=${guestNameEncoded}`;
   const simpleLinkUrl = `${BASE_URL}/?to=${guestNameEncoded}`;
@@ -560,9 +561,55 @@ window.showQR = function(id) {
 
 // Fungsi Copy Link Umum
 window.copyGeneralLink = function() {
-  const BASE_URL = 'https://lalala.enpdigitalservice.my.id/';
+  const BASE_URL = 'https://gerard-mega.enpdigitalservice.my.id/';
   navigator.clipboard.writeText(BASE_URL);
   showToast('Link Umum dicopy ke clipboard ✓', 'success');
+};
+
+// Kirim Undangan via WhatsApp
+window.sendWAInvite = function(id) {
+  const guest = allGuests.find(g => g.id === id);
+  if (!guest) return;
+
+  const BASE_URL = 'https://gerard-mega.enpdigitalservice.my.id';
+  const guestLink = `${BASE_URL}/?to=${encodeURIComponent(guest.name)}`;
+  const phone = guest.phone ? guest.phone.replace(/[^0-9]/g, '').replace(/^0/, '62') : '';
+
+  const nama = guest.name;
+  // Tentukan sapaan berdasarkan grup
+  const grup = (guest.group_name || '').toLowerCase();
+  let sapaan = 'Bapak/Ibu/Saudara/i';
+  if (grup.includes('pria') || nama.toLowerCase().startsWith('bapak')) sapaan = 'Bapak';
+  else if (grup.includes('wanita') || nama.toLowerCase().startsWith('ibu')) sapaan = 'Ibu';
+
+  const pesan = `Yth. ${nama} 🥰
+
+Shalom & Salam Sejahtera,
+
+Dengan penuh sukacita dan ucapan syukur kepada Tuhan Yang Maha Baik, tanpa mengurangi rasa hormat melalui pesan ini kami mengundang ${sapaan} untuk menghadiri acara pernikahan kami:
+
+✨ Gerald & Mega ✨
+
+Berikut link undangan kami, untuk info lengkap mengenai acara silakan kunjungi:
+${guestLink}
+
+Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila ${sapaan} berkenan untuk hadir dan memberikan doa restu.
+
+Mohon maaf perihal undangan hanya dibagikan melalui pesan ini.
+
+Terima kasih banyak atas perhatiannya.
+
+Tuhan Yesus Memberkati 🙏
+
+Hormat kami,
+Gerald & Mega`;
+
+  const encoded = encodeURIComponent(pesan);
+  const waUrl = phone
+    ? `https://wa.me/${phone}?text=${encoded}`
+    : `https://wa.me/?text=${encoded}`;
+
+  window.open(waUrl, '_blank');
 };
 
 // Handle click overlay modal (tutup jika klik di luar modal-box)
