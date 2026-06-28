@@ -626,29 +626,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Light Mode Toggle
-(function initTheme() {
-  const saved = localStorage.getItem('dashboard-theme') || 'dark';
-  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
-})();
-
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('btnTheme');
-  if (!btn) return;
-  const icon = document.getElementById('themeIcon');
-  const updateIcon = () => {
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    icon.className = isLight ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
-  };
-  updateIcon();
-  btn.addEventListener('click', () => {
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
-    localStorage.setItem('dashboard-theme', isLight ? 'dark' : 'light');
-    updateIcon();
-  });
-});
-
 // --- Realtime Setup ---
 function setupRealtime() {
   const statusEl = document.getElementById('connectionStatus');

@@ -11,25 +11,6 @@
   --gold:        #F5C842;
   --gold-dark:   #B8941A;
   --amber:       #7A5C00;
-  --bg:          #0F0C07;
-  --bg-card:     #1A1500;
-  --bg-card2:    #221A00;
-  --border:      rgba(245,200,66,0.15);
-  --border-hover:rgba(245,200,66,0.4);
-  --text:        #F5EED6;
-  --text-muted:  #8B7535;
-  --danger:      #E53E3E;
-  --success:     #38A169;
-  --info:        #3182CE;
-  --font-body:   'Inter', sans-serif;
-  --font-heading:'Cormorant Garamond', serif;
-  --radius:      12px;
-  --shadow:      0 4px 24px rgba(0,0,0,0.4);
-  --transition:  all 0.2s ease;
-}
-
-/* ── LIGHT MODE ── */
-[data-theme="light"] {
   --bg:          #F8F5EE;
   --bg-card:     #FFFFFF;
   --bg-card2:    #F0EBE0;
@@ -37,7 +18,14 @@
   --border-hover:rgba(184,148,26,0.45);
   --text:        #2D2008;
   --text-muted:  #8B7535;
+  --danger:      #E53E3E;
+  --success:     #38A169;
+  --info:        #3182CE;
+  --font-body:   'Inter', sans-serif;
+  --font-heading:'Cormorant Garamond', serif;
+  --radius:      12px;
   --shadow:      0 4px 24px rgba(0,0,0,0.08);
+  --transition:  all 0.2s ease;
 }
 
 html { scroll-behavior: smooth; }

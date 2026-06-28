@@ -1,6 +1,7 @@
 // Logika Scanner Check-in
 let html5QrcodeScanner;
 let scannedGuest = null;
+let currentCameraMode = "environment"; // default kamera belakang
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Cek Auth
@@ -29,6 +30,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Buttons in Result
   document.getElementById('btnScanAgain').addEventListener('click', () => {
     resetScanner();
+  });
+
+  document.getElementById('btnSwitchCamera').addEventListener('click', async () => {
+    const btn = document.getElementById('btnSwitchCamera');
+    btn.disabled = true;
+    
+    // Toggle mode
+    currentCameraMode = currentCameraMode === "environment" ? "user" : "environment";
+    
+    // Stop current scanner if running, then start with new mode
+    try {
+      if (html5QrcodeScanner.isScanning) {
+        await html5QrcodeScanner.stop();
+      }
+      startScanner();
+    } catch (e) {
+      console.error("Gagal mengganti kamera", e);
+    }
+    btn.disabled = false;
   });
 
   document.getElementById('btnConfirmCheckin').addEventListener('click', async () => {
@@ -66,7 +86,7 @@ function startScanner() {
   document.getElementById('manualToken').value = '';
 
   html5QrcodeScanner.start(
-    { facingMode: "environment" }, 
+    { facingMode: currentCameraMode }, 
     { fps: 10, qrbox: { width: 250, height: 250 } },
     (decodedText) => {
       // Pause scanner
