@@ -141,11 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* ==========================================================================
-     3. COUNTDOWN TIMER SYSTEM (TARGET: MARCH 15, 2027 08:00:00 WITA / UTC+8)
+     3. COUNTDOWN TIMER SYSTEM (TARGET: JULY 07, 2026 14:00:00 WITA / UTC+8)
      ========================================================================== */
-  // target: March 15, 2027 at 08:00:00 WITA. WITA is UTC+8.
-  // 08:00 WITA is 00:00 UTC. So we can define it directly in UTC or ISO format.
-  const targetDate = new Date("2027-03-15T08:00:00+08:00").getTime();
+  // Set to 07 Juli 2026 14:00 WITA (06:00 UTC)
+  const targetDate = new Date("July 7, 2026 14:00:00 GMT+0800").getTime();
 
   const updateCountdown = () => {
     const now = new Date().getTime();
@@ -188,10 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCalendar = document.getElementById('btn-calendar');
   btnCalendar.addEventListener('click', () => {
     // Google Calendar template link
-    const title = encodeURIComponent("Pernikahan Bagus & Sekar");
-    const dates = "20270315T000000Z/20270315T070000Z"; // 15 Mar 2027 08:00 WITA (00:00 UTC) to 15:00 WITA (07:00 UTC)
-    const details = encodeURIComponent("Tanpa mengurangi rasa hormat. Kami mengundang Bapak/Ibu/Saudara/i serta Kerabat sekalian untuk menghadiri acara pernikahan kami:\n\nPemberkatan Nikah: 08:00 - 10:00 WITA\nResepsi Pernikahan: 13:00 - Selesai\n\nLokasi: RT 02, Desa Padang Jaya, Kec. Kuaro, Kab. Paser, Kaltim.");
-    const location = encodeURIComponent("RT 02, Desa Padang Jaya, Kec. Kuaro, Kab. Paser, Kalimantan Timur");
+    const title = encodeURIComponent("Pernikahan Gerald & Mega");
+    const dates = "20260707T060000Z/20260707T120000Z"; // 07 Jul 2026 14:00 WITA (06:00 UTC) to 20:00 WITA (12:00 UTC)
+    const details = encodeURIComponent("Tanpa mengurangi rasa hormat. Kami mengundang Bapak/Ibu/Saudara/i serta Kerabat sekalian untuk menghadiri acara pernikahan kami:\n\nPemberkatan & Resepsi: 14:00 WITA - Selesai\n\nLokasi: Ambalat Beach, Villa 119.");
+    const location = encodeURIComponent("Ambalat Beach, Villa 119");
     
     const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
     
@@ -225,60 +224,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   };
 
-  // Copy Rekening BRI
-  const btnCopyRek = document.getElementById('btn-copy');
-  const rekNumber = document.getElementById('rekening-number').textContent;
-
-  btnCopyRek.addEventListener('click', () => {
-    navigator.clipboard.writeText(rekNumber).then(() => {
-      showToast("Nomor Rekening BRI berhasil disalin!");
+  // Global Copy Helper
+  window.copyText = function(text, successMsg) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(successMsg || "Berhasil disalin!");
     }).catch(err => {
       console.error("Failed to copy text: ", err);
-      showToast("Gagal menyalin nomor rekening.");
+      showToast("Gagal menyalin text.");
     });
-  });
-
-  // Copy Alamat Pengiriman
-  const btnCopyAlamat = document.getElementById('btn-copy-address');
-  const shippingAddress = "RT 02, Desa Padang Jaya, Kec. Kuaro, Kab. Paser, Kalimantan Timur, 76281";
-
-  btnCopyAlamat.addEventListener('click', () => {
-    navigator.clipboard.writeText(shippingAddress).then(() => {
-      showToast("Alamat pengiriman berhasil disalin!");
-    }).catch(err => {
-      console.error("Failed to copy text: ", err);
-      showToast("Gagal menyalin alamat.");
-    });
-  });
+  };
 
   /* ==========================================================================
      6. MODALS POPUP LOGIC
      ========================================================================== */
-  const qrisModal = document.getElementById('qris-modal');
-  const btnQris = document.getElementById('btn-qris');
-  const qrisCloseBtn = document.getElementById('qris-modal-close-btn');
-  const qrisCloseBg = document.getElementById('qris-modal-close-bg');
-
   const alamatModal = document.getElementById('alamat-modal');
   const btnAlamat = document.getElementById('btn-alamat');
   const alamatCloseBtn = document.getElementById('alamat-modal-close-btn');
   const alamatCloseBg = document.getElementById('alamat-modal-close-bg');
 
-  // QRIS Modal Toggles
-  btnQris.addEventListener('click', () => qrisModal.classList.add('active'));
-  qrisCloseBtn.addEventListener('click', () => qrisModal.classList.remove('active'));
-  qrisCloseBg.addEventListener('click', () => qrisModal.classList.remove('active'));
-
   // Alamat Modal Toggles
-  btnAlamat.addEventListener('click', () => alamatModal.classList.add('active'));
-  alamatCloseBtn.addEventListener('click', () => alamatModal.classList.remove('active'));
-  alamatCloseBg.addEventListener('click', () => alamatModal.classList.remove('active'));
+  if(btnAlamat) btnAlamat.addEventListener('click', () => alamatModal.classList.add('active'));
+  if(alamatCloseBtn) alamatCloseBtn.addEventListener('click', () => alamatModal.classList.remove('active'));
+  if(alamatCloseBg) alamatCloseBg.addEventListener('click', () => alamatModal.classList.remove('active'));
 
   // Close modals on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === "Escape") {
-      qrisModal.classList.remove('active');
-      alamatModal.classList.remove('active');
+      if(alamatModal) alamatModal.classList.remove('active');
     }
   });
 
