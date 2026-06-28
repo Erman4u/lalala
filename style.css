@@ -2967,8 +2967,7 @@ section {
   .cover-overlay,
   .qr-modal-overlay,
   .modal,
-  .lightbox-modal,
-  .bottom-nav {
+  .lightbox-modal {
     width: 100% !important;
     max-width: 500px !important;
     left: auto !important;
@@ -2978,8 +2977,19 @@ section {
     position: fixed !important;
   }
 
+  /* Pusatkan bottom nav di dalam 500px right pane */
   .bottom-nav {
-    transform: none !important;
+    width: 100% !important;
+    max-width: 440px !important;
+    left: auto !important;
+    right: 30px !important;
+    margin: 0 !important;
+    position: fixed !important;
+    transform: translateY(100px) !important; /* Pertahankan animasi slide up */
+  }
+  
+  .bottom-nav.visible {
+    transform: translateY(0) !important;
   }
   
   .main-content {
@@ -2992,7 +3002,7 @@ section {
   
   .floating-music-btn,
   .floating-qr-btn {
-    right: calc(250px - 24px) !important;
+    right: 20px !important;
   }
   
   .petals-container {
