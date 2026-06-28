@@ -2837,13 +2837,17 @@ section {
     font-size: 1.6rem;
   }
   
+  .countdown-timer {
+    gap: 10px;
+  }
+  
   .timer-number {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
   
   .timer-box {
-    min-width: 70px;
-    padding: 12px 5px;
+    min-width: 60px;
+    padding: 10px 5px;
   }
   
   .couple-name {
