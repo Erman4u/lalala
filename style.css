@@ -424,6 +424,45 @@ li {
   }
 }
 
+/* ==========================================================================
+   FLOATING QR BUTTON
+   ========================================================================== */
+.floating-qr-btn {
+  position: fixed;
+  bottom: 155px; /* Diletakkan di atas music button */
+  right: calc(50vw - 220px);
+  width: 48px;
+  height: 48px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 4px 15px rgba(122, 92, 0, 0.2);
+  color: var(--color-accent);
+  font-size: 1.2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  animation: pulseGold 2s infinite;
+}
+
+.floating-qr-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(245, 200, 66, 0.45);
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+@media (max-width: 480px) {
+  .floating-qr-btn {
+    right: 20px;
+  }
+}
+
 .floating-music-btn.playing {
   border-color: var(--color-accent);
   animation: pulseGold 2s infinite;

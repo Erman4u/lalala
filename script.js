@@ -18,12 +18,51 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Support baru (?tamu=TOKEN)
     const token = urlParams.get('tamu');
+    
     const qrBtn = document.getElementById('qr-btn');
     const qrModalOverlay = document.getElementById('qrModalOverlay');
     const qrModalClose = document.getElementById('qrModalClose');
     
+    const showQRLogic = (data) => {
+      guestId = data.id;
+      guestToken = data.qr_token;
+      guestNameEl.textContent = data.name;
+
+      // Isi nama di modal
+      document.getElementById('qrModalName').textContent = data.name;
+
+      // Generate QR di dalam modal (bukan di cover)
+      new QRCode(document.getElementById('qrModalCanvas'), {
+        text: data.qr_token,
+        width: 160,
+        height: 160,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      // Tampilkan floating QR button
+      if (qrBtn) qrBtn.style.display = 'flex';
+
+      // Klik QR button → buka modal
+      qrBtn.addEventListener('click', () => {
+        qrModalOverlay.classList.add('open');
+      });
+
+      // Tutup modal
+      qrModalClose.addEventListener('click', () => {
+        qrModalOverlay.classList.remove('open');
+      });
+
+      // Klik overlay gelap → tutup
+      qrModalOverlay.addEventListener('click', (e) => {
+        if (e.target === qrModalOverlay) {
+          qrModalOverlay.classList.remove('open');
+        }
+      });
+    };
+    
     if (token) {
-      guestToken = token;
       try {
         const { data, error } = await supabase
           .from('guests')
@@ -31,51 +70,28 @@ document.addEventListener('DOMContentLoaded', () => {
           .eq('qr_token', token)
           .single();
           
-        if (!error && data) {
-          guestId = data.id;
-          guestNameEl.textContent = data.name;
-
-          // Isi nama di modal
-          document.getElementById('qrModalName').textContent = data.name;
-
-          // Generate QR di dalam modal (bukan di cover)
-          new QRCode(document.getElementById('qrModalCanvas'), {
-            text: token,
-            width: 160,
-            height: 160,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.M
-          });
-
-          // Tampilkan floating QR button
-          if (qrBtn) qrBtn.style.display = 'flex';
-
-          // Klik QR button → buka modal
-          qrBtn.addEventListener('click', () => {
-            qrModalOverlay.classList.add('open');
-          });
-
-          // Tutup modal
-          qrModalClose.addEventListener('click', () => {
-            qrModalOverlay.classList.remove('open');
-          });
-
-          // Klik overlay gelap → tutup
-          qrModalOverlay.addEventListener('click', (e) => {
-            if (e.target === qrModalOverlay) {
-              qrModalOverlay.classList.remove('open');
-            }
-          });
-
-        } else {
-          guestNameEl.textContent = "Tamu Terhormat";
-        }
+        if (!error && data) showQRLogic(data);
+        else guestNameEl.textContent = "Tamu Terhormat";
       } catch (err) {
         guestNameEl.textContent = "Tamu Terhormat";
       }
     } else if (oldGuest && oldGuest.trim() !== "") {
-      guestNameEl.textContent = decodeURIComponent(oldGuest);
+      const decodedName = decodeURIComponent(oldGuest);
+      guestNameEl.textContent = decodedName; // Set nama dulu biar cepat muncul di cover
+      
+      try {
+        const { data, error } = await supabase
+          .from('guests')
+          .select('*')
+          .ilike('name', decodedName)
+          .limit(1);
+          
+        if (!error && data && data.length > 0) {
+          showQRLogic(data[0]);
+        }
+      } catch (err) {
+        console.error(err);
+      }
     } else {
       guestNameEl.textContent = "Tamu Terhormat";
     }
