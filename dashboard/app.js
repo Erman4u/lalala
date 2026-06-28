@@ -58,7 +58,17 @@ function setupNavigation() {
 
   btnMenu.addEventListener('click', () => {
     sidebar.classList.toggle('open');
+    document.body.classList.toggle('sidebar-open');
   });
+
+  // Tutup sidebar saat klik overlay (mobile)
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      document.body.classList.remove('sidebar-open');
+    });
+  }
 
   document.getElementById('btnLogout').addEventListener('click', async () => {
     await supabase.auth.signOut();
@@ -497,22 +507,23 @@ window.showQR = function(id) {
   qrContainer.innerHTML = ''; // clear previous
   
   // === URL CONFIG ===
-  // Link QR (dengan token untuk check-in)
+  // Gunakan nama tamu bukan UUID token untuk link undangan
   const BASE_URL = 'https://lalala.enpdigitalservice.my.id';
-  const inviteUrl     = `${BASE_URL}/?tamu=${guest.qr_token}`;
-  const simpleLinkUrl = `${BASE_URL}/?to=${encodeURIComponent(guest.name)}`;
+  const guestNameEncoded = encodeURIComponent(guest.name);
+  const inviteUrl     = `${BASE_URL}/?to=${guestNameEncoded}`;
+  const simpleLinkUrl = `${BASE_URL}/?to=${guestNameEncoded}`;
   
   document.getElementById('qrLink').value = inviteUrl;
 
-  // Link sederhana (tanpa QR, cuma nama)
+  // Link sederhana (sama, pakai nama)
   const simpleLinkEl = document.getElementById('simpleLinkInput');
   if (simpleLinkEl) simpleLinkEl.value = simpleLinkUrl;
 
-  // Generate QR Code (token saja, bukan full URL — scanner di checkin.js baca tokennya)
+  // Generate QR Code — encode nama tamu (agar scanner pakai nama, bukan UUID)
   new QRCode(qrContainer, {
     text: guest.qr_token,
-    width: 200,
-    height: 200,
+    width: 180,
+    height: 180,
     colorDark: "#000000",
     colorLight: "#ffffff",
     correctLevel: QRCode.CorrectLevel.M
@@ -532,7 +543,7 @@ window.showQR = function(id) {
   // Copy link QR
   document.getElementById('btnCopyLink').onclick = () => {
     navigator.clipboard.writeText(inviteUrl);
-    showToast('Link QR dicopy ke clipboard ✓', 'success');
+    showToast('Link dicopy ke clipboard ✓', 'success');
   };
 
   // Copy link sederhana
@@ -540,7 +551,7 @@ window.showQR = function(id) {
   if (btnCopySimple) {
     btnCopySimple.onclick = () => {
       navigator.clipboard.writeText(simpleLinkUrl);
-      showToast('Link sederhana dicopy ke clipboard ✓', 'success');
+      showToast('Link undangan dicopy ke clipboard ✓', 'success');
     };
   }
 
@@ -553,6 +564,43 @@ window.copyGeneralLink = function() {
   navigator.clipboard.writeText(BASE_URL);
   showToast('Link Umum dicopy ke clipboard ✓', 'success');
 };
+
+// Handle click overlay modal (tutup jika klik di luar modal-box)
+window.handleModalOverlayClick = function(event, modalId) {
+  if (event.target === document.getElementById(modalId)) {
+    closeModal(modalId);
+  }
+};
+
+// ESC key — tutup semua modal
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+  }
+});
+
+// Light Mode Toggle
+(function initTheme() {
+  const saved = localStorage.getItem('dashboard-theme') || 'dark';
+  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('btnTheme');
+  if (!btn) return;
+  const icon = document.getElementById('themeIcon');
+  const updateIcon = () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    icon.className = isLight ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
+  };
+  updateIcon();
+  btn.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
+    localStorage.setItem('dashboard-theme', isLight ? 'dark' : 'light');
+    updateIcon();
+  });
+});
 
 // --- Realtime Setup ---
 function setupRealtime() {

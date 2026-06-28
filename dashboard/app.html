@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Bagus & Sekar</title>
+  <title>Admin Dashboard - Gerald & Mega</title>
   <link rel="stylesheet" href="dashboard.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -16,7 +16,7 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-brand">
-        <h2>Bagus & Sekar</h2>
+        <h2>Gerald & Mega</h2>
         <p>Wedding Dashboard</p>
       </div>
       
@@ -42,6 +42,8 @@
         <button class="nav-link danger" id="btnLogout" style="margin-top: 10px;"><i class="bi bi-box-arrow-left"></i> Logout</button>
       </div>
     </aside>
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- Main Content -->
     <main class="main">
@@ -50,6 +52,9 @@
         <button class="hamburger" id="btnMenu"><i class="bi bi-list"></i></button>
         <div class="topbar-title" id="pageTitle">Ringkasan Acara</div>
         <div class="topbar-right">
+          <button class="btn-icon-round" id="btnTheme" title="Toggle Light/Dark Mode">
+            <i class="bi bi-sun-fill" id="themeIcon"></i>
+          </button>
           <span class="badge badge-checkin" id="connectionStatus"><i class="bi bi-wifi"></i> Online</span>
         </div>
       </header>
@@ -297,17 +302,17 @@
   </div>
 
   <!-- Modal QR Code -->
-  <div class="modal-overlay" id="modalQR">
-    <div class="modal-box" style="max-width: 380px;">
+  <div class="modal-overlay" id="modalQR" onclick="handleModalOverlayClick(event, 'modalQR')">
+    <div class="modal-box" style="max-width: 400px;" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div class="modal-title">QR Code Tamu</div>
         <button class="modal-close" onclick="closeModal('modalQR')"><i class="bi bi-x"></i></button>
       </div>
       <div class="modal-body" style="align-items: center; text-align: center;">
         <h3 id="qrGuestName" style="color: var(--gold); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 5px;">Nama Tamu</h3>
-        <p id="qrGuestGroup" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Grup Tamu</p>
+        <p id="qrGuestGroup" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px;">Grup Tamu</p>
         
-        <div style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+        <div style="background: white; padding: 12px; border-radius: 12px; margin-bottom: 16px; display:inline-block;">
           <div id="qrcode"></div>
         </div>
 
@@ -321,15 +326,16 @@
         </div>
 
         <div class="form-group" style="width: 100%; text-align: left; margin-top: 4px;">
-          <label class="form-label"><i class="bi bi-link-45deg" style="color:var(--gold);"></i> Link Undangan Sederhana (tanpa QR):</label>
+          <label class="form-label"><i class="bi bi-link-45deg" style="color:var(--gold);"></i> Link Undangan (nama tamu):</label>
           <div style="display: flex; gap: 8px;">
             <input type="text" class="form-control" id="simpleLinkInput" readonly style="font-size: 0.72rem;">
             <button class="btn btn-outline btn-icon" id="btnCopySimpleLink" title="Copy Link Sederhana"><i class="bi bi-copy"></i></button>
           </div>
-          <small style="color:var(--text-muted); font-size:0.68rem;">Bagikan ke tamu yang tidak butuh check-in QR</small>
+          <small style="color:var(--text-muted); font-size:0.68rem;">Bagikan ke tamu — nama muncul langsung di cover</small>
         </div>
       </div>
-      <div class="modal-footer" style="justify-content: center;">
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalQR')"><i class="bi bi-x"></i> Tutup</button>
         <button type="button" class="btn btn-primary" id="btnDownloadQR"><i class="bi bi-download"></i> Download QR</button>
       </div>
     </div>
