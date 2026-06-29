@@ -929,6 +929,32 @@ li {
   color: var(--color-text-muted);
 }
 
+/* Hero Animations */
+.hero-anim-img, .hero-anim-text {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.main-content.visible .hero-anim-img {
+  animation: heroImageEnter 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.3s;
+}
+
+.main-content.visible .hero-anim-text {
+  animation: heroTextEnter 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.6s;
+}
+
+@keyframes heroImageEnter {
+  0% { opacity: 0; transform: scale(1.05) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes heroTextEnter {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 .scroll-down-indicator {
   margin-top: 20px;
   display: flex;
