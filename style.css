@@ -5,7 +5,7 @@
   --color-primary: #7A5C00;      /* Deep Amber Yellow */
   --color-secondary: #B8941A;    /* Warm Golden Yellow */
   --color-accent: #F5C842;       /* Bright Pastel Yellow */
-  --color-accent-light: #FFFDE7; /* Pale Lemon Cream */
+  --color-accent-light: #FFF9C4; /* Soft Pastel Yellow */
   --color-text-dark: #3D2B00;    /* Warm Dark Brown */
   --color-text-muted: #8B7535;   /* Muted Warm Gold */
   --color-white: #FFFFFF;
@@ -858,7 +858,7 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #FFFDE7; /* Soft yellow background */
+  background-color: var(--color-accent-light);
   overflow: hidden;
   padding: 20px;
 }
@@ -1080,6 +1080,13 @@ section {
   object-fit: cover;
   border-radius: 50%;
   background: #f0f0f0;
+  animation: slowZoom 12s infinite alternate ease-in-out;
+  will-change: transform;
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.12); }
 }
 
 .mempelai-badge {
@@ -1442,95 +1449,117 @@ section {
   border-bottom: 1px solid rgba(245, 200, 66, 0.15);
 }
 
-.love-story-slider {
-  max-width: 700px;
-  margin: 50px auto 0;
+/* --- Vertical Timeline (Love Story) --- */
+.vertical-timeline {
+  position: relative;
+  padding: 20px 0;
+  margin: 0 auto;
+  max-width: 480px;
 }
 
-/* --- Stepper Navigation --- */
-.love-story-stepper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
+/* The vertical line in the middle */
+.vertical-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  width: 2px;
+  background: rgba(245, 200, 66, 0.3);
+}
+
+.timeline-item {
+  position: relative;
   margin-bottom: 40px;
+  padding-left: 50px; /* Space for the line and dot */
 }
 
-.stepper-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px 12px;
-  transition: var(--transition-smooth);
-  flex-shrink: 0;
+.timeline-item:last-child {
+  margin-bottom: 0;
 }
 
-.stepper-icon {
-  width: 48px;
-  height: 48px;
+/* The dot on the line */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 14px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(245, 200, 66, 0.12);
-  border: 2px solid rgba(245, 200, 66, 0.3);
-  color: var(--color-accent);
-  font-size: 1.1rem;
-  transition: var(--transition-smooth);
+  background: var(--color-gold-gradient);
+  border: 3px solid var(--color-white);
+  box-shadow: 0 0 10px rgba(245, 200, 66, 0.5);
+  z-index: 2;
 }
 
-.stepper-step.active .stepper-icon {
-  background: var(--color-primary);
-  border-color: var(--color-accent);
-  box-shadow: 0 0 20px rgba(245, 200, 66, 0.55);
-  transform: scale(1.12);
+.timeline-card {
+  background: var(--color-white);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  border: 1px solid rgba(245, 200, 66, 0.1);
 }
 
-.stepper-step:hover .stepper-icon {
-  border-color: var(--color-accent);
-  transform: scale(1.08);
+.timeline-img-wrap {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  position: relative;
 }
 
-.stepper-label {
-  font-family: var(--font-heading);
-  font-size: 0.7rem;
-  letter-spacing: 1.5px;
+.timeline-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 3s ease;
+}
+
+.timeline-card:hover .timeline-img {
+  transform: scale(1.05);
+}
+
+.timeline-content {
+  padding: 20px;
+  text-align: left;
+}
+
+.timeline-content .card-chapter {
+  display: inline-block;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  color: var(--color-text-muted);
-  transition: var(--transition-smooth);
-}
-
-.stepper-step.active .stepper-label {
+  letter-spacing: 2px;
   color: var(--color-accent);
   font-weight: 700;
+  margin-bottom: 8px;
 }
 
-.stepper-line {
-  flex: 1;
-  height: 3px;
-  background: rgba(245, 200, 66, 0.18);
-  border-radius: 2px;
-  min-width: 30px;
-  max-width: 100px;
-  overflow: hidden;
+.timeline-content .card-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--color-primary);
+  margin-bottom: 12px;
 }
 
-.stepper-line-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--color-accent), #FFE066);
-  border-radius: 2px;
-  transition: width 0.6s ease;
+.timeline-content .card-quote {
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+  font-style: italic;
+  margin-bottom: 15px;
+  line-height: 1.6;
 }
 
-/* --- Card Viewport & Track --- */
-.love-story-viewport {
-  overflow: hidden;
-  border-radius: 24px;
+.timeline-content .card-date {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeline-content .card-date i {
+  color: var(--color-accent);
 }
 
 .love-story-track {
@@ -2470,27 +2499,51 @@ section {
    SCROLL REVEAL ANIMATIONS
    ========================================================================== */
 .scroll-reveal {
+  --sr-translate-x: 0;
+  --sr-translate-y: 30px;
+  --sr-scale: 1;
+  --sr-rotate: 0deg;
+  --sr-rotate-x: 0deg;
   opacity: 0;
+  transform: perspective(600px) translate(var(--sr-translate-x), var(--sr-translate-y)) scale(var(--sr-scale)) rotateX(var(--sr-rotate-x)) rotate(var(--sr-rotate));
   transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, opacity;
 }
 
+/* Different variations of scroll-reveal */
 .scroll-reveal.slide-left {
-  transform: translateX(-30px);
+  --sr-translate-x: -30px;
+  --sr-translate-y: 0;
 }
 
 .scroll-reveal.slide-right {
-  transform: translateX(30px);
+  --sr-translate-x: 30px;
+  --sr-translate-y: 0;
 }
 
-/* Default reveals that just slide up */
-.scroll-reveal:not(.slide-left):not(.slide-right) {
-  transform: translateY(30px);
+.scroll-reveal.zoom-in {
+  --sr-scale: 0.7;
+  --sr-translate-y: 0;
+}
+
+.scroll-reveal.zoom-out {
+  --sr-scale: 1.15;
+  --sr-translate-y: 0;
+}
+
+.scroll-reveal.flip-up {
+  --sr-rotate-x: 20deg;
+  --sr-translate-y: 20px;
 }
 
 .scroll-reveal.active-reveal {
-  opacity: 1;
-  transform: translate(0, 0) scale(1);
+  opacity: 1 !important;
+  --sr-translate-x: 0;
+  --sr-translate-y: 0;
+  --sr-scale: 1;
+  --sr-rotate-x: 0deg;
+  /* We do NOT reset --sr-rotate here, so tilt is preserved! */
+  transform: perspective(600px) translate(var(--sr-translate-x), var(--sr-translate-y)) scale(var(--sr-scale)) rotateX(var(--sr-rotate-x)) rotate(var(--sr-rotate)) !important;
 }
 
 /* ==========================================================================
